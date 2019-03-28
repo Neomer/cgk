@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SixtySeconds</string>
+    <string name="start_countdown_text">Start</string>
+    <string name="cancel_countdown_text">Stop</string>
+    <string name="press_start_message">Press start!</string>
+    <string name="finish_message">Finish!</string>
+    <string name="cancel_message">Stopped!</string>
+    <string name="next_question_message">Next question</string>
+</resources>
