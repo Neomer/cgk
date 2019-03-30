@@ -8,9 +8,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 class RetrofitService {
     private static final RetrofitService ourInstance = new RetrofitService();
-    private static final String BASE_URL = "http://neomer.info:47561/AskMe";
+    private static final String BASE_URL = "http://neomer.info/AskMe/";
 
     private AskMeAPI api;
+    private Retrofit retrofit;
 
     static RetrofitService getInstance() {
         return ourInstance;
@@ -21,7 +22,7 @@ class RetrofitService {
                 .setLenient()
                 .create();
 
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();

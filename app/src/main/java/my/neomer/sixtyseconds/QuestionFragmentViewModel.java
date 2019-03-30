@@ -16,6 +16,8 @@ public class QuestionFragmentViewModel extends ViewModel {
     private IQuestionProvider provider = new HttpQuestionProvider();
     private final MutableLiveData<Question> question = new MutableLiveData<>();
 
+    public boolean hasValue() { return question.getValue() != null; }
+
     public LiveData<Question> getQuestion() {
         return question;
     }

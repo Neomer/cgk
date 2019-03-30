@@ -9,6 +9,6 @@ public class FakeQuestionProvider implements IQuestionProvider {
 
     @Override
     public void getNextQuestion(Callback<Question> callback) {
-        callback.onReady(new Question((int)(Math.random() * 100000), "Пример вопроса", "Какой-то ответ"));
+
     }
 }

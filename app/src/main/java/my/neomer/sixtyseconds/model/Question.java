@@ -2,6 +2,7 @@ package my.neomer.sixtyseconds.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 public class Question implements Parcelable {
 
@@ -12,7 +13,7 @@ public class Question implements Parcelable {
     public Question() {
     }
 
-    public Question(long id, String text, String answer) {
+    public Question(@NonNull long id, @NonNull String text, @NonNull String answer) {
         this.id = id;
         this.text = text;
         this.answer = answer;
@@ -36,6 +37,7 @@ public class Question implements Parcelable {
         }
     };
 
+    @NonNull
     public long getId() {
         return id;
     }
@@ -44,6 +46,7 @@ public class Question implements Parcelable {
         this.id = id;
     }
 
+    @NonNull
     public String getText() {
         return text;
     }
@@ -52,6 +55,7 @@ public class Question implements Parcelable {
         this.text = text;
     }
 
+    @NonNull
     public String getAnswer() {
         return answer;
     }

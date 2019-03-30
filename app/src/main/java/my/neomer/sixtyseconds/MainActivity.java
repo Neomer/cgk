@@ -1,7 +1,9 @@
 package my.neomer.sixtyseconds;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +20,7 @@ import my.neomer.sixtyseconds.transport.IQuestionProvider;
 
 public class MainActivity
         extends AppCompatActivity
-        implements ICountdownListener, View.OnClickListener  {
+        implements ICountdownListener, View.OnClickListener, Observer<Question>  {
 
     private TextView txtCountdown;
     private TextView txtAnswer;
@@ -27,7 +29,15 @@ public class MainActivity
     private IQuestionProvider questionProvider;
     private QuestionFragmentViewModel mViewModel;
 
+    @Override
+    public void onChanged(@Nullable Question question) {
+        state = GameState.Idle;
+        btnStart.setText(getResources().getString(R.string.start_countdown_text));
+        txtCountdown.setText(R.string.press_start_message);
+    }
+
     private enum GameState {
+        Updating,
         Idle,
         Counting,
         Result
@@ -39,8 +49,6 @@ public class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        state = GameState.Idle;
-
         txtCountdown = findViewById(R.id.txtTime);
         txtAnswer = findViewById(R.id.txtAnswer);
 
@@ -48,13 +56,15 @@ public class MainActivity
         btnStart.setOnClickListener(this);
 
         mViewModel = ViewModelProviders.of(this).get(QuestionFragmentViewModel.class);
+        mViewModel.getQuestion().observe(this, this);
+
         updateQuestion();
     }
 
     private void updateQuestion() {
-        state = GameState.Idle;
-        btnStart.setText(getResources().getString(R.string.start_countdown_text));
-        txtCountdown.setText(R.string.press_start_message);
+        state = GameState.Updating;
+        btnStart.setText(R.string.wait_countdown_text);
+        txtCountdown.setText(R.string.updating_message);
         txtAnswer.setText("");
         mViewModel.update();
     }
@@ -79,7 +89,7 @@ public class MainActivity
     private void displayAnswer() {
         state = GameState.Result;
         btnStart.setText(getResources().getString(R.string.next_question_message));
-        txtAnswer.setText(mViewModel.getQuestion().getValue().getAnswer());
+        txtAnswer.setText(getResources().getString(R.string.answer_label) + " " + mViewModel.getQuestion().getValue().getAnswer());
     }
 
     private void startTimer() {
@@ -93,8 +103,13 @@ public class MainActivity
     public void onClick(View v) {
         if (v == btnStart) {
             switch (state) {
+                case Updating:
+                    break;
+
                 case Idle:
-                    startTimer();
+                    if (mViewModel != null && mViewModel.hasValue()) {
+                        startTimer();
+                    }
                     break;
 
                 case Counting:
@@ -123,7 +138,7 @@ public class MainActivity
 
         @Override
         protected Void doInBackground(Void... voids) {
-            for (int time = 60; time > 50; --time) {
+            for (int time = 60; time > 0; --time) {
                 try {
                     publishProgress(time);
                     TimeUnit.SECONDS.sleep(1);
