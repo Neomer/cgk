@@ -3,19 +3,17 @@ package my.neomer.sixtyseconds;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
-import java.util.Observable;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import my.neomer.sixtyseconds.model.Question;
-import my.neomer.sixtyseconds.transport.FakeQuestionProvider;
 import my.neomer.sixtyseconds.transport.IQuestionProvider;
 
 public class MainActivity
@@ -26,7 +24,6 @@ public class MainActivity
     private TextView txtAnswer;
     private Button btnStart;
     private Countdown countdown;
-    private IQuestionProvider questionProvider;
     private QuestionFragmentViewModel mViewModel;
 
     @Override
@@ -89,7 +86,7 @@ public class MainActivity
     private void displayAnswer() {
         state = GameState.Result;
         btnStart.setText(getResources().getString(R.string.next_question_message));
-        txtAnswer.setText(getResources().getString(R.string.answer_label) + " " + mViewModel.getQuestion().getValue().getAnswer());
+        txtAnswer.setText(getResources().getString(R.string.answer_label) + " " + Objects.requireNonNull(mViewModel.getQuestion().getValue()).getAnswer());
     }
 
     private void startTimer() {
@@ -123,11 +120,11 @@ public class MainActivity
         }
     }
 
-    private class Countdown extends AsyncTask<Void, Integer, Void> {
+    private static class Countdown extends AsyncTask<Void, Integer, Void> {
 
         private ICountdownListener updateListener;
 
-        public Countdown(ICountdownListener updateListener) {
+        Countdown(ICountdownListener updateListener) {
             this.updateListener = updateListener;
         }
 
