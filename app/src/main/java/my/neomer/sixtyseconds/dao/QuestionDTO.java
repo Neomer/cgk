@@ -10,6 +10,7 @@ public class QuestionDTO implements Parcelable {
     private long id;
     private String text;
     private String answer;
+    private String comment;
 
     public QuestionDTO(Question question) {
         this.id = question.getId();
@@ -18,7 +19,7 @@ public class QuestionDTO implements Parcelable {
     }
 
     public Question toQuestion() {
-        return new Question(id, text, answer);
+        return new Question(id, text, answer, comment);
     }
 
     protected QuestionDTO(Parcel in) {

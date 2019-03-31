@@ -31,7 +31,7 @@ public class QuestionFragmentViewModel extends ViewModel {
 
             @Override
             public void onFailure(Throwable t) {
-
+                provider.getNextQuestion(this);
             }
         });
     }

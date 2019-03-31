@@ -9,14 +9,16 @@ public class Question implements Parcelable {
     private long id;
     private String text;
     private String answer;
+    private String comment;
 
     public Question() {
     }
 
-    public Question(@NonNull long id, @NonNull String text, @NonNull String answer) {
+    public Question(@NonNull long id, @NonNull String text, @NonNull String answer, String comment) {
         this.id = id;
         this.text = text;
         this.answer = answer;
+        this.comment = comment;
     }
 
     protected Question(Parcel in) {
@@ -74,5 +76,13 @@ public class Question implements Parcelable {
         dest.writeLong(id);
         dest.writeString(text);
         dest.writeString(answer);
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

@@ -8,5 +8,7 @@
     <string name="cancel_message">Stopped!</string>
     <string name="updating_message">Receiving question...</string>
     <string name="next_question_message">Next question</string>
-    <string name="answer_label">Answer: </string>
+    <string name="comment_label">Comment: </string>
+    <string name="answer_label">Answer:</string>
 </resources>
+

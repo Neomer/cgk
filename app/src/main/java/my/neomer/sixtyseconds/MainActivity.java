@@ -6,30 +6,31 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import my.neomer.sixtyseconds.model.Question;
-import my.neomer.sixtyseconds.transport.IQuestionProvider;
 
 public class MainActivity
         extends AppCompatActivity
         implements ICountdownListener, View.OnClickListener, Observer<Question>  {
 
     private TextView txtCountdown;
-    private TextView txtAnswer;
     private Button btnStart;
     private Countdown countdown;
     private QuestionFragmentViewModel mViewModel;
+    private QuestionFragment questionFragment;
 
     @Override
     public void onChanged(@Nullable Question question) {
         state = GameState.Idle;
         btnStart.setText(getResources().getString(R.string.start_countdown_text));
+        txtCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimension(R.dimen.title_font_size));
         txtCountdown.setText(R.string.press_start_message);
     }
 
@@ -47,7 +48,6 @@ public class MainActivity
         setContentView(R.layout.activity_main);
 
         txtCountdown = findViewById(R.id.txtTime);
-        txtAnswer = findViewById(R.id.txtAnswer);
 
         btnStart = findViewById(R.id.btnStart);
         btnStart.setOnClickListener(this);
@@ -55,30 +55,39 @@ public class MainActivity
         mViewModel = ViewModelProviders.of(this).get(QuestionFragmentViewModel.class);
         mViewModel.getQuestion().observe(this, this);
 
+        questionFragment = (QuestionFragment)getSupportFragmentManager().findFragmentById(R.id.fragment);
+
         updateQuestion();
     }
 
     private void updateQuestion() {
         state = GameState.Updating;
         btnStart.setText(R.string.wait_countdown_text);
+        txtCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimension(R.dimen.title_font_size));
         txtCountdown.setText(R.string.updating_message);
-        txtAnswer.setText("");
         mViewModel.update();
     }
 
     @Override
     public void updateTime(int value) {
+        txtCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimension(R.dimen.clock_font_size));
         txtCountdown.setText(String.valueOf(value));
     }
 
     @Override
     public void countFinish() {
+        txtCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimension(R.dimen.title_font_size));
         txtCountdown.setText(R.string.finish_message);
         displayAnswer();
     }
 
     @Override
     public void countCancel() {
+        txtCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimension(R.dimen.title_font_size));
         txtCountdown.setText(R.string.cancel_message);
         displayAnswer();
     }
@@ -86,7 +95,7 @@ public class MainActivity
     private void displayAnswer() {
         state = GameState.Result;
         btnStart.setText(getResources().getString(R.string.next_question_message));
-        txtAnswer.setText(getResources().getString(R.string.answer_label) + " " + Objects.requireNonNull(mViewModel.getQuestion().getValue()).getAnswer());
+        questionFragment.displayAnswer();
     }
 
     private void startTimer() {
