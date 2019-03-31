@@ -11,6 +11,7 @@ public class QuestionDTO implements Parcelable {
     private String text;
     private String answer;
     private String comment;
+    private int level;
 
     public QuestionDTO(Question question) {
         this.id = question.getId();
@@ -19,13 +20,24 @@ public class QuestionDTO implements Parcelable {
     }
 
     public Question toQuestion() {
-        return new Question(id, text, answer, comment);
+        Question question = new Question(id, text, answer, comment);
+        switch (level) {
+            case 0: question.setDifficulty(Question.Difficulty.Easiest); break;
+            case 1: question.setDifficulty(Question.Difficulty.Normal); break;
+            case 2: question.setDifficulty(Question.Difficulty.Moderate); break;
+            case 3: question.setDifficulty(Question.Difficulty.Professional); break;
+            case 4: question.setDifficulty(Question.Difficulty.Hardest); break;
+            default: question.setDifficulty(Question.Difficulty.Unknown); break;
+        }
+        return question;
     }
 
     protected QuestionDTO(Parcel in) {
         id = in.readLong();
         text = in.readString();
         answer = in.readString();
+        comment = in.readString();
+        level = in.readInt();
     }
 
     @Override
@@ -33,6 +45,8 @@ public class QuestionDTO implements Parcelable {
         dest.writeLong(id);
         dest.writeString(text);
         dest.writeString(answer);
+        dest.writeString(comment);
+        dest.writeInt(level);
     }
 
     @Override

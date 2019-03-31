@@ -11,6 +11,24 @@ public class Question implements Parcelable {
     private String answer;
     private String comment;
 
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public enum Difficulty {
+        Easiest,
+        Normal,
+        Moderate,
+        Professional,
+        Hardest,
+        Unknown
+    }
+    private Difficulty difficulty;
+
     public Question() {
     }
 

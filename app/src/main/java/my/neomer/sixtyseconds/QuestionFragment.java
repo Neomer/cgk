@@ -63,8 +63,17 @@ public class QuestionFragment extends Fragment {
         }
         txtQuestion.setText(question.getText());
 
-        SpannableString str;
-        txtQuestionNumber.setText("#" + String.valueOf(question.getId()));
+        String diff;
+        switch (question.getDifficulty()) {
+            case Easiest: diff = getResources().getString(R.string.difficult_easiest); break;
+            case Normal: diff = getResources().getString(R.string.difficult_normal); break;
+            case Moderate: diff = getResources().getString(R.string.difficult_moderate); break;
+            case Professional: diff = getResources().getString(R.string.difficult_Professional); break;
+            case Hardest: diff = getResources().getString(R.string.difficult_Hardest); break;
+            case Unknown: diff = getResources().getString(R.string.difficult_Unknown); break;
+            default: diff = "";
+        }
+        txtQuestionNumber.setText(Html.fromHtml(getResources().getString(R.string.difficult_label, question.getId(), diff)));
         txtQuestion.setText(question.getText());
     }
 
@@ -94,3 +103,4 @@ public class QuestionFragment extends Fragment {
         txtQuestion.setText(Html.fromHtml(html));
     }
 }
+

@@ -11,4 +11,12 @@
     <string name="next_question_message">Следующий вопрос</string>
     <string name="answer_label">Ответ:</string>
     <string name="comment_label">Комментарий: </string>
+    <!-- difficulties -->
+    <string name="difficult_label">#%1$d Уровень: <b>%2$s</b></string>
+    <string name="difficult_easiest">Легкий</string>
+    <string name="difficult_normal">Нормальный</string>
+    <string name="difficult_moderate">Средний</string>
+    <string name="difficult_Professional">Выше среднего</string>
+    <string name="difficult_Hardest">Сложный</string>
+    <string name="difficult_Unknown">Не установлен</string>
 </resources>

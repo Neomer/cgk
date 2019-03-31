@@ -10,5 +10,13 @@
     <string name="next_question_message">Next question</string>
     <string name="comment_label">Comment: </string>
     <string name="answer_label">Answer:</string>
+    <!-- difficulties -->
+    <string name="difficult_label">#%1$d Level: <b>%2$s</b></string>
+    <string name="difficult_easiest">Easiest</string>
+    <string name="difficult_normal">Normal</string>
+    <string name="difficult_moderate">Moderate</string>
+    <string name="difficult_Professional">Professional</string>
+    <string name="difficult_Hardest">Hardest</string>
+    <string name="difficult_Unknown">Unknown</string>
 </resources>
 

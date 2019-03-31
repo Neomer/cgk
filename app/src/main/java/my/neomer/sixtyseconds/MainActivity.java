@@ -8,10 +8,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,11 +28,15 @@ public class MainActivity
         implements ICountdownListener, View.OnClickListener, Observer<Question>, SoundPool.OnLoadCompleteListener {
 
     private static final int MAX_STREAMS = 2;
+    private static final String TAG = "MainActivity";
+    private static final int SKIP_ADS_COUNT = 3;        // Сколько вопросов показывать без рекламы
     private TextView txtCountdown;
     private Button btnStart;
     private Countdown countdown;
     private QuestionFragmentViewModel mViewModel;
     private QuestionFragment questionFragment;
+    private InterstitialAd mInterstitialAd;
+    private int ad_skip = 0;
 
     private SoundPool soundPool;
     private int timeIsUpSoundId;
@@ -50,7 +60,8 @@ public class MainActivity
         Updating,
         Idle,
         Counting,
-        Result
+        Result,
+        DisplayAds
     }
     private GameState state;
 
@@ -64,6 +75,17 @@ public class MainActivity
 
         timeIsUpSoundId = soundPool.load(this, R.raw.time_is_up, 1);
         clickSoundId = soundPool.load(this, R.raw.click, 1);
+
+        MobileAds.initialize(this, "ca-app-pub-5078878060587689~8320307873");
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-5078878060587689/9345738647");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+        });
 
         txtCountdown = findViewById(R.id.txtTime);
 
@@ -148,9 +170,24 @@ public class MainActivity
                     break;
 
                 case Result:
+                    displayAds();
+                    break;
+
+                case DisplayAds:
                     updateQuestion();
                     break;
             }
+        }
+    }
+
+    private void displayAds() {
+        state = GameState.DisplayAds;
+        if (mInterstitialAd.isLoaded() && ++ad_skip >= SKIP_ADS_COUNT) {
+            ad_skip = 0;
+            mInterstitialAd.show();
+        } else {
+            Log.d(TAG, "Ad is not ready!");
+            updateQuestion();
         }
     }
 
