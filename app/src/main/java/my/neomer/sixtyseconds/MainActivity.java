@@ -2,6 +2,8 @@ package my.neomer.sixtyseconds;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,13 +19,18 @@ import my.neomer.sixtyseconds.model.Question;
 
 public class MainActivity
         extends AppCompatActivity
-        implements ICountdownListener, View.OnClickListener, Observer<Question>  {
+        implements ICountdownListener, View.OnClickListener, Observer<Question>, SoundPool.OnLoadCompleteListener {
 
+    private static final int MAX_STREAMS = 2;
     private TextView txtCountdown;
     private Button btnStart;
     private Countdown countdown;
     private QuestionFragmentViewModel mViewModel;
     private QuestionFragment questionFragment;
+
+    private SoundPool soundPool;
+    private int timeIsUpSoundId;
+    private int clickSoundId;
 
     @Override
     public void onChanged(@Nullable Question question) {
@@ -32,6 +39,11 @@ public class MainActivity
         txtCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimension(R.dimen.title_font_size));
         txtCountdown.setText(R.string.press_start_message);
+    }
+
+    @Override
+    public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+
     }
 
     private enum GameState {
@@ -47,6 +59,12 @@ public class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        soundPool = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(this);
+
+        timeIsUpSoundId = soundPool.load(this, R.raw.time_is_up, 1);
+        clickSoundId = soundPool.load(this, R.raw.click, 1);
+
         txtCountdown = findViewById(R.id.txtTime);
 
         btnStart = findViewById(R.id.btnStart);
@@ -60,12 +78,15 @@ public class MainActivity
         updateQuestion();
     }
 
+
+
     private void updateQuestion() {
         state = GameState.Updating;
         btnStart.setText(R.string.wait_countdown_text);
         txtCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimension(R.dimen.title_font_size));
         txtCountdown.setText(R.string.updating_message);
+        questionFragment.clear();
         mViewModel.update();
     }
 
@@ -78,6 +99,7 @@ public class MainActivity
 
     @Override
     public void countFinish() {
+        soundPool.play(timeIsUpSoundId, 1, 1, 0,0,1);
         txtCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimension(R.dimen.title_font_size));
         txtCountdown.setText(R.string.finish_message);
@@ -86,6 +108,7 @@ public class MainActivity
 
     @Override
     public void countCancel() {
+        soundPool.play(timeIsUpSoundId, 1, 1, 0,0,1);
         txtCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimension(R.dimen.title_font_size));
         txtCountdown.setText(R.string.cancel_message);
@@ -108,6 +131,8 @@ public class MainActivity
     @Override
     public void onClick(View v) {
         if (v == btnStart) {
+            soundPool.play(clickSoundId, 1, 1,0,0,1);
+
             switch (state) {
                 case Updating:
                     break;

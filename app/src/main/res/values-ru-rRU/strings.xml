@@ -3,10 +3,10 @@
     <string name="app_name">60 Секунд</string>
     <string name="wait_countdown_text">Подожите</string>
     <string name="start_countdown_text">Старт</string>
-    <string name="cancel_countdown_text">Стоп</string>
-    <string name="press_start_message">Нажмите старт!</string>
-    <string name="finish_message">Время!</string>
-    <string name="cancel_message">Остановлено!</string>
+    <string name="cancel_countdown_text">Есть ответ</string>
+    <string name="press_start_message">Нажмите старт</string>
+    <string name="finish_message">Время вышло</string>
+    <string name="cancel_message">Остановлено</string>
     <string name="updating_message">Ищем вопрос...</string>
     <string name="next_question_message">Следующий вопрос</string>
     <string name="answer_label">Ответ:</string>
