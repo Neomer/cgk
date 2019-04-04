@@ -22,6 +22,8 @@ public class QuestionFragmentViewModel extends ViewModel {
         return question;
     }
 
+    public IQuestionProvider getProvider() { return provider; }
+
     public void update() {
         provider.getNextQuestion(new Callback<Question>() {
             @Override
