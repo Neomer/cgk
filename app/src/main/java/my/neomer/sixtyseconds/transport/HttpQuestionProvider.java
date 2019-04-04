@@ -11,13 +11,23 @@ public class HttpQuestionProvider
         implements IQuestionProvider, retrofit2.Callback<QuestionDTO> {
 
     private Callback<Question> callback;
+    private TransportConfiguration configuration;
+
+    public HttpQuestionProvider() {
+
+    }
+
+    @Override
+    public void setConfiguration(TransportConfiguration config) {
+        configuration = config;
+    }
 
     @Override
     public void getNextQuestion(Callback<Question> callback) {
         this.callback = callback;
         RetrofitService.getInstance()
                 .getApi()
-                .getQuestion()
+                .getQuestion(configuration.getUser())
                 .enqueue(this);
     }
 

@@ -8,6 +8,11 @@ public class FakeQuestionProvider implements IQuestionProvider {
     }
 
     @Override
+    public void setConfiguration(TransportConfiguration config) {
+
+    }
+
+    @Override
     public void getNextQuestion(Callback<Question> callback) {
 
     }

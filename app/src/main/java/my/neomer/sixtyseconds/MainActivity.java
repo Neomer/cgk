@@ -2,6 +2,7 @@ package my.neomer.sixtyseconds;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.AsyncTask;
@@ -19,9 +20,11 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import my.neomer.sixtyseconds.model.Question;
+import my.neomer.sixtyseconds.transport.TransportConfiguration;
 
 public class MainActivity
         extends AppCompatActivity
@@ -29,7 +32,9 @@ public class MainActivity
 
     private static final int MAX_STREAMS = 2;
     private static final String TAG = "MainActivity";
-    private static final int SKIP_ADS_COUNT = 3;        // Сколько вопросов показывать без рекламы
+    private static final int SKIP_ADS_COUNT = 5;        // Сколько вопросов показывать без рекламы
+    private static final String USER_UUID_KEY = "USER_UUID";
+    private static final String DIFFICULTY_KEY = "DIFFICULTY";
     private TextView txtCountdown;
     private Button btnStart;
     private Countdown countdown;
@@ -97,9 +102,23 @@ public class MainActivity
 
         questionFragment = (QuestionFragment)getSupportFragmentManager().findFragmentById(R.id.fragment);
 
+        loadPreferences();
         updateQuestion();
     }
 
+    private void loadPreferences() {
+        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+        String user = pref.getString(USER_UUID_KEY, null);
+        int difficulty = pref.getInt(DIFFICULTY_KEY, 5);
+
+        if (user == null) {
+            user = UUID.randomUUID().toString();
+            SharedPreferences.Editor ed = pref.edit();
+            ed.putString(USER_UUID_KEY, user);
+            ed.commit();
+        }
+        mViewModel.getProvider().setConfiguration(new TransportConfiguration(user, difficulty));
+    }
 
 
     private void updateQuestion() {
