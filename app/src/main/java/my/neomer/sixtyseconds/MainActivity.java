@@ -8,11 +8,15 @@ import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
+import android.util.LayoutDirection;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
@@ -38,6 +42,9 @@ public class MainActivity
     private TextView txtCountdown;
     private Button btnStart;
     private Countdown countdown;
+    private ConstraintLayout voteLayout, mainLayout;
+    private ImageButton btnLike, btnDislike;
+
     private QuestionFragmentViewModel mViewModel;
     private QuestionFragment questionFragment;
     private InterstitialAd mInterstitialAd;
@@ -96,6 +103,15 @@ public class MainActivity
 
         btnStart = findViewById(R.id.btnStart);
         btnStart.setOnClickListener(this);
+
+        mainLayout = findViewById(R.id.mainLayout);
+        voteLayout = findViewById(R.id.layoutVote);
+
+        btnLike = findViewById(R.id.btnLike);
+        btnDislike = findViewById(R.id.btnDislike);
+
+        btnLike.setOnClickListener(this);
+        btnDislike.setOnClickListener(this);
 
         mViewModel = ViewModelProviders.of(this).get(QuestionFragmentViewModel.class);
         mViewModel.getQuestion().observe(this, this);
@@ -157,6 +173,7 @@ public class MainActivity
     }
 
     private void displayAnswer() {
+        showVoting();
         state = GameState.Result;
         btnStart.setText(getResources().getString(R.string.next_question_message));
         questionFragment.displayAnswer();
@@ -196,10 +213,36 @@ public class MainActivity
                     updateQuestion();
                     break;
             }
+        } else if (v == btnLike) {
+            mViewModel.like();
+            hideVoting();
+        } else if (v == btnDislike) {
+            mViewModel.dislike();
+            hideVoting();
         }
     }
 
+    private void hideVoting() {
+        voteLayout.setVisibility(View.INVISIBLE);
+
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(mainLayout);
+        constraintSet.connect(R.id.fragment, ConstraintSet.BOTTOM, R.id.btnStart, ConstraintSet.TOP,0);
+        constraintSet.applyTo(mainLayout);
+    }
+
+    private void showVoting() {
+        voteLayout.setVisibility(View.VISIBLE);
+
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(mainLayout);
+        constraintSet.connect(R.id.fragment, ConstraintSet.BOTTOM, R.id.layoutVote, ConstraintSet.TOP,0);
+        constraintSet.applyTo(mainLayout);
+    }
+
+
     private void displayAds() {
+        voteLayout.setVisibility(View.INVISIBLE);
         state = GameState.DisplayAds;
         if (mInterstitialAd.isLoaded() && ++ad_skip >= SKIP_ADS_COUNT) {
             ad_skip = 0;

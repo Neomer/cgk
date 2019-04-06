@@ -10,6 +10,7 @@ public class Question implements Parcelable {
     private String text;
     private String answer;
     private String comment;
+    private int vote;
 
     public Difficulty getDifficulty() {
         return difficulty;
@@ -17,6 +18,10 @@ public class Question implements Parcelable {
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public int getVote() {
+        return vote;
     }
 
     public enum Difficulty {
@@ -32,11 +37,12 @@ public class Question implements Parcelable {
     public Question() {
     }
 
-    public Question(@NonNull long id, @NonNull String text, @NonNull String answer, String comment) {
+    public Question(@NonNull long id, @NonNull String text, @NonNull String answer, String comment, int vote) {
         this.id = id;
         this.text = text;
         this.answer = answer;
         this.comment = comment;
+        this.vote = vote;
     }
 
     protected Question(Parcel in) {

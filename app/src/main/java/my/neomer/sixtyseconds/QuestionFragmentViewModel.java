@@ -24,6 +24,18 @@ public class QuestionFragmentViewModel extends ViewModel {
 
     public IQuestionProvider getProvider() { return provider; }
 
+    public void like() {
+        if (hasValue()) {
+            provider.like(question.getValue());
+        }
+    }
+
+    public void dislike() {
+        if (hasValue()) {
+            provider.dislike(question.getValue());
+        }
+    }
+
     public void update() {
         provider.getNextQuestion(new Callback<Question>() {
             @Override

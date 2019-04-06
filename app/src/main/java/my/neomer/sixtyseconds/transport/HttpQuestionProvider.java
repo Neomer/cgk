@@ -1,6 +1,7 @@
 package my.neomer.sixtyseconds.transport;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import my.neomer.sixtyseconds.dao.QuestionDTO;
 import my.neomer.sixtyseconds.model.Question;
@@ -10,6 +11,7 @@ import retrofit2.Response;
 public class HttpQuestionProvider
         implements IQuestionProvider, retrofit2.Callback<QuestionDTO> {
 
+    private static final String TAG = "HttpQuestionProvider";
     private Callback<Question> callback;
     private TransportConfiguration configuration;
 
@@ -29,6 +31,42 @@ public class HttpQuestionProvider
                 .getApi()
                 .getQuestion(configuration.getUser())
                 .enqueue(this);
+    }
+
+    @Override
+    public void like(Question question) {
+        RetrofitService.getInstance()
+                .getApi()
+                .vote(configuration.getUser(), question.getId(), 1)
+                .enqueue(new retrofit2.Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Log.d(TAG, "Question liked");
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Log.d(TAG, "Execution failed");
+                    }
+                });
+    }
+
+    @Override
+    public void dislike(Question question) {
+        RetrofitService.getInstance()
+                .getApi()
+                .vote(configuration.getUser(), question.getId(), -1)
+                .enqueue(new retrofit2.Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Log.d(TAG, "Question liked");
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Log.d(TAG, "Execution failed");
+                    }
+                });
     }
 
     @Override

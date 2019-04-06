@@ -8,4 +8,7 @@ public interface IQuestionProvider {
 
     void getNextQuestion(Callback<Question> callback);
 
+    void like(Question question);
+
+    void dislike(Question question);
 }

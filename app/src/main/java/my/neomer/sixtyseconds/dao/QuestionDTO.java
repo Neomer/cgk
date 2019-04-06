@@ -12,6 +12,7 @@ public class QuestionDTO implements Parcelable {
     private String answer;
     private String comment;
     private int level;
+    private int vote;
 
     public QuestionDTO(Question question) {
         this.id = question.getId();
@@ -20,7 +21,7 @@ public class QuestionDTO implements Parcelable {
     }
 
     public Question toQuestion() {
-        Question question = new Question(id, text, answer, comment);
+        Question question = new Question(id, text, answer, comment, vote);
         switch (level) {
             case 0: question.setDifficulty(Question.Difficulty.Easiest); break;
             case 1: question.setDifficulty(Question.Difficulty.Normal); break;

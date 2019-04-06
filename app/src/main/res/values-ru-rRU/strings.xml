@@ -11,8 +11,9 @@
     <string name="next_question_message">Следующий вопрос</string>
     <string name="answer_label">Ответ:</string>
     <string name="comment_label">Комментарий: </string>
+    <string name="vote_lebel">Вам понравился вопрос?</string>
     <!-- difficulties -->
-    <string name="difficult_label">#%1$d Уровень: <b>%2$s</b></string>
+    <string name="difficult_label">#%1$d <strong>Уровень:</strong> %2$s <strong>Рейтинг:</strong> %3$d</string>
     <string name="difficult_easiest">Легкий</string>
     <string name="difficult_normal">Нормальный</string>
     <string name="difficult_moderate">Средний</string>
