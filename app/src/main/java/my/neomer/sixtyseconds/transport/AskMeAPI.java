@@ -11,4 +11,6 @@ public interface AskMeAPI {
     @GET("question.php")
     Call<QuestionDTO> getQuestion(@Query("user") String userId);
 
+    @GET("vote.php")
+    Call<Void> vote(@Query("user") String userId, @Query("question") long questionId, @Query("vote") int vote);
 }

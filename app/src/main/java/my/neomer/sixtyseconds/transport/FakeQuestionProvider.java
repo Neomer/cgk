@@ -16,4 +16,15 @@ public class FakeQuestionProvider implements IQuestionProvider {
     public void getNextQuestion(Callback<Question> callback) {
 
     }
+
+    @Override
+    public void like(Question question) {
+
+    }
+
+    @Override
+    public void dislike(Question question) {
+
+    }
+
 }

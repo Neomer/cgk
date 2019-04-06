@@ -10,8 +10,9 @@
     <string name="next_question_message">Next question</string>
     <string name="comment_label">Comment: </string>
     <string name="answer_label">Answer:</string>
+    <string name="vote_lebel">Do you like this question?</string>
     <!-- difficulties -->
-    <string name="difficult_label">#%1$d Level: <b>%2$s</b></string>
+    <string name="difficult_label">#%1$d Level: <b>%2$s</b> Rate: %3$d</string>
     <string name="difficult_easiest">Easiest</string>
     <string name="difficult_normal">Normal</string>
     <string name="difficult_moderate">Moderate</string>

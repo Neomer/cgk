@@ -73,7 +73,7 @@ public class QuestionFragment extends Fragment {
             case Unknown: diff = getResources().getString(R.string.difficult_Unknown); break;
             default: diff = "";
         }
-        txtQuestionNumber.setText(Html.fromHtml(getResources().getString(R.string.difficult_label, question.getId(), diff)));
+        txtQuestionNumber.setText(Html.fromHtml(getResources().getString(R.string.difficult_label, question.getId(), diff, question.getVote())));
         txtQuestion.setText(question.getText());
     }
 
