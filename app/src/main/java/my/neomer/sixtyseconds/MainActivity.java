@@ -53,6 +53,7 @@ public class MainActivity
     private SoundPool soundPool;
     private int timeIsUpSoundId;
     private int clickSoundId;
+    private int countDownSoundId;
 
     @Override
     public void onChanged(@Nullable Question question) {
@@ -87,6 +88,7 @@ public class MainActivity
 
         timeIsUpSoundId = soundPool.load(this, R.raw.time_is_up, 1);
         clickSoundId = soundPool.load(this, R.raw.click, 1);
+        countDownSoundId = soundPool.load(this, R.raw.countdown, 1);
 
         MobileAds.initialize(this, "ca-app-pub-5078878060587689~8320307873");
         mInterstitialAd = new InterstitialAd(this);
@@ -152,11 +154,13 @@ public class MainActivity
         txtCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimension(R.dimen.clock_font_size));
         txtCountdown.setText(String.valueOf(value));
+        if (value == 5) {
+            soundPool.play(countDownSoundId, 1, 1, 0 ,0, 1);
+        }
     }
 
     @Override
     public void countFinish() {
-        soundPool.play(timeIsUpSoundId, 1, 1, 0,0,1);
         txtCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimension(R.dimen.title_font_size));
         txtCountdown.setText(R.string.finish_message);
@@ -188,8 +192,8 @@ public class MainActivity
 
     @Override
     public void onClick(View v) {
+        soundPool.play(clickSoundId, 1, 1,0,0,1);
         if (v == btnStart) {
-            soundPool.play(clickSoundId, 1, 1,0,0,1);
 
             switch (state) {
                 case Updating:

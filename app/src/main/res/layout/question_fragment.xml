@@ -8,19 +8,9 @@
     tools:context=".QuestionFragment">
 
     <TextView
-        android:id="@+id/txtQuestionNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/main_font"
-        android:textSize="@dimen/main_font"
-        app:layout_constraintStart_toStartOf="@+id/txtQuestion"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/txtQuestion"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:scrollbars="vertical"
         android:textColor="@color/main_font"
         android:textSize="@dimen/main_font"
@@ -28,8 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtQuestionNumber"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/updateProgressBar"

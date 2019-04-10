@@ -3,12 +3,15 @@ package my.neomer.sixtyseconds;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.SpannableString;
+import android.text.SpannedString;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +28,6 @@ public class QuestionFragment extends Fragment {
 
     private QuestionFragmentViewModel mViewModel;
     private TextView txtQuestion;
-    private TextView txtQuestionNumber;
     private ProgressBar progressBar;
 
     public static QuestionFragment newInstance() {
@@ -44,8 +46,8 @@ public class QuestionFragment extends Fragment {
 
         txtQuestion = getView().findViewById(R.id.txtQuestion);
         txtQuestion.setMovementMethod(new ScrollingMovementMethod());
+        txtQuestion.scrollTo(0, 0);
 
-        txtQuestionNumber = getView().findViewById(R.id.txtQuestionNumber);
         progressBar = getView().findViewById(R.id.updateProgressBar);
 
         mViewModel = ViewModelProviders.of(getActivity()).get(QuestionFragmentViewModel.class);
@@ -57,24 +59,38 @@ public class QuestionFragment extends Fragment {
         });
     }
 
+    private String translatedDifficulty(Question.Difficulty difficulty) {
+        switch (difficulty) {
+            case Easiest: return getResources().getString(R.string.difficult_easiest);
+            case Normal: return getResources().getString(R.string.difficult_normal);
+            case Moderate: return getResources().getString(R.string.difficult_moderate);
+            case Professional: return getResources().getString(R.string.difficult_Professional);
+            case Hardest: return getResources().getString(R.string.difficult_Hardest);
+            case Unknown: return getResources().getString(R.string.difficult_Unknown);
+            default: return "";
+        }
+    }
+
+    private CharSequence getText(int id, Object... args) {
+        for(int i = 0; i < args.length; ++i) {
+            args[i] = args[i] instanceof String ? TextUtils.htmlEncode((String) args[i]) : args[i];
+        }
+        CharSequence cs = getResources().getText(id);
+        String htmlString = Html.toHtml(new SpannableString(cs));
+        String s  = String.format(htmlString, args);
+        return Html.fromHtml(s);
+    }
+
     public void update(Question question) {
         if (progressBar != null) {
             progressBar.setVisibility(View.INVISIBLE);
         }
-        txtQuestion.setText(question.getText());
-
-        String diff;
-        switch (question.getDifficulty()) {
-            case Easiest: diff = getResources().getString(R.string.difficult_easiest); break;
-            case Normal: diff = getResources().getString(R.string.difficult_normal); break;
-            case Moderate: diff = getResources().getString(R.string.difficult_moderate); break;
-            case Professional: diff = getResources().getString(R.string.difficult_Professional); break;
-            case Hardest: diff = getResources().getString(R.string.difficult_Hardest); break;
-            case Unknown: diff = getResources().getString(R.string.difficult_Unknown); break;
-            default: diff = "";
-        }
-        txtQuestionNumber.setText(Html.fromHtml(getResources().getString(R.string.difficult_label, question.getId(), diff, question.getVote())));
-        txtQuestion.setText(question.getText());
+        String txt = getString(R.string.question_label,
+                question.getId(),
+                translatedDifficulty(question.getDifficulty()),
+                question.getVote(),
+                question.getText());
+        txtQuestion.setText(Html.fromHtml(txt));
     }
 
     public void clear() {
@@ -82,7 +98,6 @@ public class QuestionFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
         }
         if (txtQuestion != null) {
-            txtQuestionNumber.setText("");
             txtQuestion.setText("");
         }
     }
@@ -92,15 +107,24 @@ public class QuestionFragment extends Fragment {
         if (question == null) {
             return;
         }
-
-        String html = question.getText() + "<br /><br /><strong><u>" +
-                getResources().getString(R.string.answer_label) + "</u> " +
-                question.getAnswer() +"</strong>" +
-                (question.getComment() != null && !question.getComment().isEmpty() ? "<br /><br /><strong><u>" +
-                    getResources().getString(R.string.comment_label) + "</u> " +
-                    question.getComment() +"</strong>" : "");
-
-        txtQuestion.setText(Html.fromHtml(html));
+        if (question.getComment() != null && !question.getComment().isEmpty()) {
+            txtQuestion.setText(Html.fromHtml(
+                    getResources().getString(R.string.question_with_answer_and_comment_label,
+                            question.getId(),
+                            translatedDifficulty(question.getDifficulty()),
+                            question.getVote(),
+                            question.getText(),
+                            question.getAnswer(),
+                            question.getComment())));
+        } else {
+            txtQuestion.setText(Html.fromHtml(
+                    getResources().getString(R.string.question_with_answer_label,
+                            question.getId(),
+                            translatedDifficulty(question.getDifficulty()),
+                            question.getVote(),
+                            question.getText(),
+                            question.getAnswer())));
+        }
     }
 }
 

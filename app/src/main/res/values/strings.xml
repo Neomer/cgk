@@ -11,8 +11,10 @@
     <string name="comment_label">Comment: </string>
     <string name="answer_label">Answer:</string>
     <string name="vote_lebel">Do you like this question?</string>
+    <string name="question_label"><![CDATA[#%1$d Level: <b>%2$s</b> Rate: %3$d<br /><br />%4$s]]></string>
+    <string name="question_with_answer_label"><![CDATA[#%1$d Level: <b>%2$s</b> Rate: %3$d<br />%4$s<br /><br /><string><u>Answer: </u></string>%5$s]]></string>
+    <string name="question_with_answer_and_comment_label"><![CDATA[#%1$d Level: <b>%2$s</b> Rate: %3$d<br />%4$s<br /><br /><strong><u>Answer: </u></strong>%5$s<br /><strong><u>Comment: </u></strong>%6$s]]></string>
     <!-- difficulties -->
-    <string name="difficult_label">#%1$d Level: <b>%2$s</b> Rate: %3$d</string>
     <string name="difficult_easiest">Easiest</string>
     <string name="difficult_normal">Normal</string>
     <string name="difficult_moderate">Moderate</string>
