@@ -1,5 +1,6 @@
 package my.neomer.sixtyseconds.transport;
 
+import my.neomer.sixtyseconds.model.Answer;
 import my.neomer.sixtyseconds.model.Question;
 
 public class FakeQuestionProvider implements IQuestionProvider {
@@ -14,6 +15,11 @@ public class FakeQuestionProvider implements IQuestionProvider {
 
     @Override
     public void getNextQuestion(Callback<Question> callback) {
+
+    }
+
+    @Override
+    public void getAnswer(Question question, String guess, Callback<Answer> callback) {
 
     }
 

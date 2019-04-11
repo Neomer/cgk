@@ -1,11 +1,13 @@
 package my.neomer.sixtyseconds;
 
+import android.os.AsyncTask;
+
 public interface ICountdownListener {
 
-    void updateTime(int value);
+    void updateTime(AsyncTask<Void, Integer, Void> timer, int value);
 
-    void countFinish();
+    void countFinish(AsyncTask<Void, Integer, Void> timer);
 
-    void countCancel();
+    void countCancel(AsyncTask<Void, Integer, Void> timer);
 
 }
