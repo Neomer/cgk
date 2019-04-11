@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.security.PrivateKey;
 import java.util.Observable;
 
+import my.neomer.sixtyseconds.model.Answer;
 import my.neomer.sixtyseconds.model.Question;
 
 public class QuestionFragment extends Fragment {
@@ -57,6 +58,13 @@ public class QuestionFragment extends Fragment {
                 update(question);
             }
         });
+        mViewModel.getAnswer().observe(this, new Observer<Answer>() {
+            @Override
+            public void onChanged(@Nullable Answer answer) {
+                updateAnswer(answer);
+            }
+        });
+
     }
 
     private String translatedDifficulty(Question.Difficulty difficulty) {
@@ -93,6 +101,19 @@ public class QuestionFragment extends Fragment {
         txtQuestion.setText(Html.fromHtml(txt));
     }
 
+    private void updateAnswer(Answer answer) {
+        if (answer.getComment() != null && !answer.getComment().isEmpty()) {
+            txtQuestion.setText(Html.fromHtml(
+                    getResources().getString(R.string.answer_and_comment_label,
+                            answer.getAnswer(),
+                            answer.getComment())));
+        } else {
+            txtQuestion.setText(Html.fromHtml(
+                    getResources().getString(R.string.answer_label,
+                            answer.getAnswer())));
+        }
+    }
+
     public void clear() {
         if (progressBar != null) {
             progressBar.setVisibility(View.VISIBLE);
@@ -102,29 +123,8 @@ public class QuestionFragment extends Fragment {
         }
     }
 
-    public void displayAnswer() {
-        Question question = mViewModel.getQuestion().getValue();
-        if (question == null) {
-            return;
-        }
-        if (question.getComment() != null && !question.getComment().isEmpty()) {
-            txtQuestion.setText(Html.fromHtml(
-                    getResources().getString(R.string.question_with_answer_and_comment_label,
-                            question.getId(),
-                            translatedDifficulty(question.getDifficulty()),
-                            question.getVote(),
-                            question.getText(),
-                            question.getAnswer(),
-                            question.getComment())));
-        } else {
-            txtQuestion.setText(Html.fromHtml(
-                    getResources().getString(R.string.question_with_answer_label,
-                            question.getId(),
-                            translatedDifficulty(question.getDifficulty()),
-                            question.getVote(),
-                            question.getText(),
-                            question.getAnswer())));
-        }
+    public void displayAnswer(String guess) {
+        mViewModel.checkAnswer(guess);
     }
 }
 

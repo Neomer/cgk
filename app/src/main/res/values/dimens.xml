@@ -3,4 +3,5 @@
     <dimen name="main_font">18sp</dimen>
     <dimen name="clock_font_size">48sp</dimen>
     <dimen name="title_font_size">36sp</dimen>
+    <dimen name="subtitle_font">24sp</dimen>
 </resources>

@@ -8,20 +8,15 @@ import my.neomer.sixtyseconds.model.Question;
 public class QuestionDTO implements Parcelable {
 
     private long id;
-    private String text;
-    private String answer;
-    private String comment;
     private int level;
+    private String text;
     private int vote;
 
-    public QuestionDTO(Question question) {
-        this.id = question.getId();
-        this.text = question.getText();
-        this.answer = question.getAnswer();
-    }
-
     public Question toQuestion() {
-        Question question = new Question(id, text, answer, comment, vote);
+        Question question = new Question();
+        question.setId(id);
+        question.setText(text);
+        question.setVote(vote);
         switch (level) {
             case 0: question.setDifficulty(Question.Difficulty.Easiest); break;
             case 1: question.setDifficulty(Question.Difficulty.Normal); break;
@@ -35,19 +30,17 @@ public class QuestionDTO implements Parcelable {
 
     protected QuestionDTO(Parcel in) {
         id = in.readLong();
-        text = in.readString();
-        answer = in.readString();
-        comment = in.readString();
         level = in.readInt();
+        vote = in.readInt();
+        text = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
-        dest.writeString(text);
-        dest.writeString(answer);
-        dest.writeString(comment);
         dest.writeInt(level);
+        dest.writeInt(vote);
+        dest.writeString(text);
     }
 
     @Override

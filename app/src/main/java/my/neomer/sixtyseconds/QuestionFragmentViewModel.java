@@ -3,8 +3,10 @@ package my.neomer.sixtyseconds;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 import android.widget.Toast;
 
+import my.neomer.sixtyseconds.model.Answer;
 import my.neomer.sixtyseconds.model.Question;
 import my.neomer.sixtyseconds.transport.Callback;
 import my.neomer.sixtyseconds.transport.FakeQuestionProvider;
@@ -13,30 +15,48 @@ import my.neomer.sixtyseconds.transport.IQuestionProvider;
 
 public class QuestionFragmentViewModel extends ViewModel {
 
+    private static final String TAG = "QuestionFragmentVM";
     private IQuestionProvider provider = new HttpQuestionProvider();
     private final MutableLiveData<Question> question = new MutableLiveData<>();
+    private final MutableLiveData<Answer> answer = new MutableLiveData<>();
 
-    public boolean hasValue() { return question.getValue() != null; }
+    boolean hasValue() { return question.getValue() != null; }
 
     public LiveData<Question> getQuestion() {
         return question;
     }
 
-    public IQuestionProvider getProvider() { return provider; }
+    public LiveData<Answer> getAnswer() { return answer; }
 
-    public void like() {
+    IQuestionProvider getProvider() { return provider; }
+
+    void like() {
         if (hasValue()) {
             provider.like(question.getValue());
         }
     }
 
-    public void dislike() {
+    void dislike() {
         if (hasValue()) {
             provider.dislike(question.getValue());
         }
     }
 
-    public void update() {
+    void checkAnswer(String guess) {
+        provider.getAnswer(question.getValue(), guess, new Callback<Answer>() {
+            @Override
+            public void onReady(Answer data) {
+                answer.setValue(data);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, t.getLocalizedMessage());
+            }
+        });
+    }
+
+    void update() {
         provider.getNextQuestion(new Callback<Question>() {
             @Override
             public void onReady(Question data) {
@@ -49,5 +69,4 @@ public class QuestionFragmentViewModel extends ViewModel {
             }
         });
     }
-
 }

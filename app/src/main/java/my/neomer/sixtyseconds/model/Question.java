@@ -8,8 +8,6 @@ public class Question implements Parcelable {
 
     private long id;
     private String text;
-    private String answer;
-    private String comment;
     private int vote;
 
     public Difficulty getDifficulty() {
@@ -22,6 +20,10 @@ public class Question implements Parcelable {
 
     public int getVote() {
         return vote;
+    }
+
+    public void setVote(int vote) {
+        this.vote = vote;
     }
 
     public enum Difficulty {
@@ -37,18 +39,9 @@ public class Question implements Parcelable {
     public Question() {
     }
 
-    public Question(@NonNull long id, @NonNull String text, @NonNull String answer, String comment, int vote) {
-        this.id = id;
-        this.text = text;
-        this.answer = answer;
-        this.comment = comment;
-        this.vote = vote;
-    }
-
     protected Question(Parcel in) {
         id = in.readLong();
         text = in.readString();
-        answer = in.readString();
     }
 
     public static final Creator<Question> CREATOR = new Creator<Question>() {
@@ -81,14 +74,6 @@ public class Question implements Parcelable {
         this.text = text;
     }
 
-    @NonNull
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
 
     @Override
     public int describeContents() {
@@ -99,14 +84,5 @@ public class Question implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeString(text);
-        dest.writeString(answer);
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 }
