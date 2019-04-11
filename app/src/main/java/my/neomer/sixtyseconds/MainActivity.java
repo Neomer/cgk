@@ -3,6 +3,7 @@ package my.neomer.sixtyseconds;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.AsyncTask;
@@ -11,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
-import android.util.LayoutDirection;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -23,6 +23,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.yandex.metrica.YandexMetrica;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -79,11 +80,31 @@ public class MainActivity
     private GameState state;
 
     @Override
+    protected void onPause() {
+        YandexMetrica.getReporter(getApplicationContext(), AppMetricaHelper.AppKey).pauseSession();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        YandexMetrica.getReporter(getApplicationContext(), AppMetricaHelper.AppKey).resumeSession();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        soundPool = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
+
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(MAX_STREAMS)
+                .setAudioAttributes(
+                        new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build())
+                .build();
         soundPool.setOnLoadCompleteListener(this);
 
         timeIsUpSoundId = soundPool.load(this, R.raw.time_is_up, 1);
