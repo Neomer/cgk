@@ -32,7 +32,6 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.yandex.metrica.YandexMetrica;
 
-import java.util.Timer;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -47,9 +46,13 @@ public class MainActivity
     private static final int MAX_STREAMS = 2;
     private static final String TAG = "MainActivity";
     private static final int SKIP_ADS_COUNT = 5;        // Сколько вопросов показывать без рекламы
+    private static final int GUESS_MAX_TIME = 20;
+
+    // Configuration keys
     private static final String USER_UUID_KEY = "USER_UUID";
     private static final String DIFFICULTY_KEY = "DIFFICULTY";
-    private static final int GUESS_MAX_TIME = 20;
+    private static final String ADS_COUNTER_KEY = "ADS";
+
     private TextView txtCountdown;
     private TextView txtGuess;
     private Button btnStart, btnSendGuess;
@@ -99,7 +102,24 @@ public class MainActivity
     @Override
     protected void onPause() {
         YandexMetrica.getReporter(getApplicationContext(), AppMetricaHelper.AppKey).pauseSession();
+        saveAdsState();
         super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        saveAdsState();
+        super.onStop();
+    }
+
+    /**
+     * Сохраняет количество пропущенных вопросов для показа рекламы
+     */
+    private void saveAdsState() {
+        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor ed = pref.edit();
+        ed.putInt(ADS_COUNTER_KEY, ad_skip);
+        ed.apply();
     }
 
     @Override
@@ -224,8 +244,10 @@ public class MainActivity
      */
     private void loadPreferences() {
         SharedPreferences pref = getPreferences(MODE_PRIVATE);
+
         String user = pref.getString(USER_UUID_KEY, null);
         int difficulty = pref.getInt(DIFFICULTY_KEY, 5);
+        ad_skip = pref.getInt(ADS_COUNTER_KEY, 0);
 
         if (user == null) {
             user = UUID.randomUUID().toString();
