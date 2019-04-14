@@ -16,6 +16,7 @@
     <string name="answer_and_comment_label"><![CDATA[<strong><u>Answer: </u></strong>%1$s<br /><strong><u>Comment: </u></strong>%2$s]]></string>
     <string name="correct_label">Correct!</string>
     <string name="wrong_label">Wrong!</string>
+    <string name="privacy_policy_action_label">Privacy policy</string>
     <!-- difficulties -->
     <string name="difficult_easiest">Easiest</string>
     <string name="difficult_normal">Normal</string>

@@ -17,6 +17,7 @@
     <string name="answer_and_comment_label"><![CDATA[<strong><u>Ответ: </u></strong>%1$s<br /><strong><u>Комментарий: </u></strong>%2$s]]></string>
     <string name="correct_label">Верно!</string>
     <string name="wrong_label">Ошибка!</string>
+    <string name="privacy_policy_action_label">Политика конфиденциальности</string>
     <!-- difficulties -->
     <string name="difficult_easiest">Легкий</string>
     <string name="difficult_normal">Нормальный</string>
