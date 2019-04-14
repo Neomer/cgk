@@ -2,6 +2,7 @@ package my.neomer.sixtyseconds;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
@@ -15,6 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -28,7 +32,6 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.yandex.metrica.YandexMetrica;
 
-import java.util.Timer;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -43,9 +46,13 @@ public class MainActivity
     private static final int MAX_STREAMS = 2;
     private static final String TAG = "MainActivity";
     private static final int SKIP_ADS_COUNT = 5;        // Сколько вопросов показывать без рекламы
+    private static final int GUESS_MAX_TIME = 20;
+
+    // Configuration keys
     private static final String USER_UUID_KEY = "USER_UUID";
     private static final String DIFFICULTY_KEY = "DIFFICULTY";
-    private static final int GUESS_MAX_TIME = 20;
+    private static final String ADS_COUNTER_KEY = "ADS";
+
     private TextView txtCountdown;
     private TextView txtGuess;
     private Button btnStart, btnSendGuess;
@@ -95,13 +102,37 @@ public class MainActivity
     @Override
     protected void onPause() {
         YandexMetrica.getReporter(getApplicationContext(), AppMetricaHelper.AppKey).pauseSession();
+        saveAdsState();
         super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        saveAdsState();
+        super.onStop();
+    }
+
+    /**
+     * Сохраняет количество пропущенных вопросов для показа рекламы
+     */
+    private void saveAdsState() {
+        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor ed = pref.edit();
+        ed.putInt(ADS_COUNTER_KEY, ad_skip);
+        ed.apply();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         YandexMetrica.getReporter(getApplicationContext(), AppMetricaHelper.AppKey).resumeSession();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
     }
 
     @Override
@@ -213,8 +244,10 @@ public class MainActivity
      */
     private void loadPreferences() {
         SharedPreferences pref = getPreferences(MODE_PRIVATE);
+
         String user = pref.getString(USER_UUID_KEY, null);
         int difficulty = pref.getInt(DIFFICULTY_KEY, 5);
+        ad_skip = pref.getInt(ADS_COUNTER_KEY, 0);
 
         if (user == null) {
             user = UUID.randomUUID().toString();
@@ -386,6 +419,21 @@ public class MainActivity
             hideVoting();
         } else if (v == btnSendGuess) {
             guessCountdown.cancel(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_privacypolicy:
+            {
+                startActivity(new Intent(this, PrivacyPolicyActivity.class));
+                return true;
+            }
+
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
     }
 

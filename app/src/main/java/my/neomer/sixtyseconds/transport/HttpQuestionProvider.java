@@ -3,6 +3,7 @@ package my.neomer.sixtyseconds.transport;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import my.neomer.sixtyseconds.MyApp;
 import my.neomer.sixtyseconds.dao.AnswerDTO;
 import my.neomer.sixtyseconds.dao.QuestionDTO;
 import my.neomer.sixtyseconds.model.Answer;
@@ -32,7 +33,7 @@ public class HttpQuestionProvider
         this.callbackQuestion = callback;
         RetrofitService.getInstance()
                 .getApi()
-                .getQuestion(configuration.getUser())
+                .getQuestion(configuration.getUser(), MyApp.Version)
                 .enqueue(this);
     }
 

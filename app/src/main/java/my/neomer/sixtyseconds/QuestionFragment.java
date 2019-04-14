@@ -47,7 +47,6 @@ public class QuestionFragment extends Fragment {
 
         txtQuestion = getView().findViewById(R.id.txtQuestion);
         txtQuestion.setMovementMethod(new ScrollingMovementMethod());
-        txtQuestion.scrollTo(0, 0);
 
         progressBar = getView().findViewById(R.id.updateProgressBar);
 
@@ -90,6 +89,7 @@ public class QuestionFragment extends Fragment {
     }
 
     public void update(Question question) {
+        txtQuestion.scrollTo(0, 0);
         if (progressBar != null) {
             progressBar.setVisibility(View.INVISIBLE);
         }
@@ -102,6 +102,7 @@ public class QuestionFragment extends Fragment {
     }
 
     private void updateAnswer(Answer answer) {
+        txtQuestion.scrollTo(0, 0);
         if (answer.getComment() != null && !answer.getComment().isEmpty()) {
             txtQuestion.setText(Html.fromHtml(
                     getResources().getString(R.string.answer_and_comment_label,
