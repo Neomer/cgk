@@ -2,6 +2,7 @@ package my.neomer.sixtyseconds;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
@@ -15,6 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -102,6 +106,13 @@ public class MainActivity
     protected void onResume() {
         super.onResume();
         YandexMetrica.getReporter(getApplicationContext(), AppMetricaHelper.AppKey).resumeSession();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
     }
 
     @Override
@@ -386,6 +397,21 @@ public class MainActivity
             hideVoting();
         } else if (v == btnSendGuess) {
             guessCountdown.cancel(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_privacypolicy:
+            {
+                startActivity(new Intent(this, PrivacyPolicyActivity.class));
+                return true;
+            }
+
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
     }
 
