@@ -7,6 +7,7 @@
     <string name="press_start_message">Нажмите старт</string>
     <string name="finish_message">Время вышло</string>
     <string name="cancel_message">Остановлено</string>
+    <string name="answer_message">Ответ</string>
     <string name="updating_message">Ищем вопрос...</string>
     <string name="next_question_message">Следующий вопрос</string>
     <string name="vote_lebel">Вам понравился вопрос?</string>
@@ -18,6 +19,8 @@
     <string name="correct_label">Верно!</string>
     <string name="wrong_label">Ошибка!</string>
     <string name="privacy_policy_action_label">Политика конфиденциальности</string>
+    <string name="max_question_difficulty">Максимальная сложность вопросов:</string>
+    <string name="setup_game">Выберите настройки игры:</string>
     <!-- difficulties -->
     <string name="difficult_easiest">Легкий</string>
     <string name="difficult_normal">Нормальный</string>
@@ -25,4 +28,7 @@
     <string name="difficult_Professional">Выше среднего</string>
     <string name="difficult_Hardest">Сложный</string>
     <string name="difficult_Unknown">Не установлен</string>
+    <!-- game modes -->
+    <string name="single_player_gamemode_title">Одиночная игра</string>
+    <string name="single_player_with_rate_gamemode_title">Одиночная рейтинговая игра</string>
 </resources>

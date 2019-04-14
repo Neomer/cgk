@@ -7,7 +7,7 @@ public interface IQuestionProvider {
 
     void setConfiguration(TransportConfiguration config);
 
-    void getNextQuestion(Callback<Question> callback);
+    void getNextQuestion(Question.Difficulty difficulty, Callback<Question> callback);
 
     void getAnswer(Question question, String guess, Callback<Answer> callback);
 

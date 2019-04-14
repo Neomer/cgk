@@ -3,6 +3,7 @@ package my.neomer.sixtyseconds.dao;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import my.neomer.sixtyseconds.helpers.DifficultyHelper;
 import my.neomer.sixtyseconds.model.Question;
 
 public class QuestionDTO implements Parcelable {
@@ -17,14 +18,7 @@ public class QuestionDTO implements Parcelable {
         question.setId(id);
         question.setText(text);
         question.setVote(vote);
-        switch (level) {
-            case 0: question.setDifficulty(Question.Difficulty.Easiest); break;
-            case 1: question.setDifficulty(Question.Difficulty.Normal); break;
-            case 2: question.setDifficulty(Question.Difficulty.Moderate); break;
-            case 3: question.setDifficulty(Question.Difficulty.Professional); break;
-            case 4: question.setDifficulty(Question.Difficulty.Hardest); break;
-            default: question.setDifficulty(Question.Difficulty.Unknown); break;
-        }
+        question.setDifficulty(DifficultyHelper.FromInt(level));
         return question;
     }
 

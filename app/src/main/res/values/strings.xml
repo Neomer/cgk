@@ -6,6 +6,7 @@
     <string name="press_start_message">Press start!</string>
     <string name="finish_message">Finish!</string>
     <string name="cancel_message">Stopped!</string>
+    <string name="answer_message">Answer</string>
     <string name="updating_message">Receiving question...</string>
     <string name="next_question_message">Next question</string>
     <string name="vote_lebel">Do you like this question?</string>
@@ -17,6 +18,8 @@
     <string name="correct_label">Correct!</string>
     <string name="wrong_label">Wrong!</string>
     <string name="privacy_policy_action_label">Privacy policy</string>
+    <string name="max_question_difficulty">Set max question difficulty:</string>
+    <string name="setup_game">Set up your game:</string>
     <!-- difficulties -->
     <string name="difficult_easiest">Easiest</string>
     <string name="difficult_normal">Normal</string>
@@ -24,5 +27,16 @@
     <string name="difficult_Professional">Professional</string>
     <string name="difficult_Hardest">Hardest</string>
     <string name="difficult_Unknown">Unknown</string>
+    <!-- game modes -->
+    <string name="single_player_gamemode_title">Single player</string>
+    <string name="single_player_with_rate_gamemode_title">Single player with Rate</string>
+
+    <string-array name="difficulty_list">
+        <item>@string/difficult_Hardest</item>
+        <item>@string/difficult_Professional</item>
+        <item>@string/difficult_moderate</item>
+        <item>@string/difficult_normal</item>
+        <item>@string/difficult_easiest</item>
+    </string-array>
 </resources>
 
