@@ -7,6 +7,8 @@ import com.yandex.metrica.YandexMetricaConfig;
 
 public class MyApp extends Application {
 
+    public static final String Version = BuildConfig.VERSION_NAME;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -17,7 +19,7 @@ public class MyApp extends Application {
     private void initializeAppMetrica() {
         YandexMetricaConfig config = YandexMetricaConfig
                 .newConfigBuilder(AppMetricaHelper.AppKey)
-                .withAppVersion("1.0.3")
+                .withAppVersion(MyApp.Version)
                 .withCrashReporting(true)
                 .build();
         // Инициализация AppMetrica SDK.
