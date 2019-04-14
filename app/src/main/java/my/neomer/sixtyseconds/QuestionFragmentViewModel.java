@@ -42,7 +42,7 @@ public class QuestionFragmentViewModel extends ViewModel {
         }
     }
 
-    void checkAnswer(String guess) {
+    void checkAnswer(final String guess) {
         provider.getAnswer(question.getValue(), guess, new Callback<Answer>() {
             @Override
             public void onReady(Answer data) {
@@ -51,7 +51,7 @@ public class QuestionFragmentViewModel extends ViewModel {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.e(TAG, t.getLocalizedMessage());
+                provider.getAnswer(getQuestion().getValue(), guess, this);
             }
         });
     }
