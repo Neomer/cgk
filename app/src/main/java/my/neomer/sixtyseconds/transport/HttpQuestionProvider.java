@@ -6,6 +6,7 @@ import android.util.Log;
 import my.neomer.sixtyseconds.MyApp;
 import my.neomer.sixtyseconds.dao.AnswerDTO;
 import my.neomer.sixtyseconds.dao.QuestionDTO;
+import my.neomer.sixtyseconds.helpers.DifficultyHelper;
 import my.neomer.sixtyseconds.model.Answer;
 import my.neomer.sixtyseconds.model.Question;
 import retrofit2.Call;
@@ -29,11 +30,12 @@ public class HttpQuestionProvider
     }
 
     @Override
-    public void getNextQuestion(Callback<Question> callback) {
+    public void getNextQuestion(Question.Difficulty difficulty, Callback<Question> callback) {
         this.callbackQuestion = callback;
+
         RetrofitService.getInstance()
                 .getApi()
-                .getQuestion(configuration.getUser(), MyApp.Version)
+                .getQuestion(configuration.getUser(), MyApp.Version, DifficultyHelper.ToInt(difficulty))
                 .enqueue(this);
     }
 
