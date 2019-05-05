@@ -1,4 +1,4 @@
-package my.neomer.sixtyseconds;
+package my.neomer.sixtyseconds.helpers;
 
 public final class AppMetricaHelper {
 
