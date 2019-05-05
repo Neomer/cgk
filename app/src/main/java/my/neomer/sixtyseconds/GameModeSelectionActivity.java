@@ -24,7 +24,7 @@ public class GameModeSelectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_mode_selection);
 
         ApplicationResources.getInstance().setDebug(0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
-
+        ApplicationResources.getInstance().loadPreferences(this);
         ApplicationResources.getInstance().loadSounds(this, null);
         ButterKnife.bind(this);
     }
@@ -39,6 +39,11 @@ public class GameModeSelectionActivity extends AppCompatActivity {
     void SinglePlayerGameMode() {
         ApplicationResources.getInstance().playClickSound();
         runGame(new SinglePlayerGameMode());
+    }
+
+    @OnClick(R.id.btnRating)
+    void StartRatingActivity() {
+        startActivity(new Intent(this, RatingActivity.class));
     }
 
     private void runGame(IGameMode gameMode) {

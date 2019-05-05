@@ -55,7 +55,6 @@ public class BaseGameContext extends ViewModel implements Parcelable {
     @SuppressLint("StaticFieldLeak")
     private FragmentActivity activity;
     private String guess;
-    private int adsSkipped;
     private Question.Difficulty difficulty;
 
     public MutableLiveData<Question> getQuestion() {
@@ -76,13 +75,6 @@ public class BaseGameContext extends ViewModel implements Parcelable {
     public void setGuess(String guess) {
         this.guess = guess;
     }
-    public int getAdsSkipped() {
-        return adsSkipped;
-    }
-    public void setAdsSkipped(int adsSkipped) {
-        this.adsSkipped = adsSkipped;
-    }
-    public void adsSkipped() { this.adsSkipped++; }
     public Question.Difficulty getDifficulty() {
         return difficulty;
     }

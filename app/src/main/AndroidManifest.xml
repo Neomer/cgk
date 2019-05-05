@@ -15,10 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".PrivacyPolicyActivity"></activity>
+        <activity android:name=".RatingActivity"></activity>
+        <activity android:name=".PrivacyPolicyActivity" />
         <activity android:name=".GameModeSelectionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

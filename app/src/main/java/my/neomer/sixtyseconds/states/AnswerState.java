@@ -2,9 +2,16 @@ package my.neomer.sixtyseconds.states;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -13,8 +20,9 @@ import my.neomer.sixtyseconds.QuestionFragment;
 import my.neomer.sixtyseconds.R;
 import my.neomer.sixtyseconds.gamemodes.BaseGameContext;
 import my.neomer.sixtyseconds.helpers.ActivityHelper;
+import my.neomer.sixtyseconds.helpers.ApplicationResources;
 
-public class AnswerState extends BaseState {
+public class AnswerState extends BaseEscalationState {
 
     //region Parcelable
 
@@ -31,7 +39,7 @@ public class AnswerState extends BaseState {
         }
     };
 
-    private AnswerState(Parcel in) {
+    protected AnswerState(Parcel in) {
         super(in);
     }
 
@@ -43,10 +51,25 @@ public class AnswerState extends BaseState {
     @BindView(R.id.txtTime)
     TextView txtTitle;
 
+    @BindView(R.id.cardCorrect)
+    CardView cardCorrect;
+
+    @BindView(R.id.txtCorrect)
+    TextView txtCorrect;
+
+    @BindView(R.id.imgCorrect)
+    ImageView imgCorrect;
+
+    @BindView(R.id.layoutVote)
+    ConstraintLayout layoutVote;
+
+    @BindView(R.id.imgShowVoting)
+    ImageButton imgShowVoting;
+
     private QuestionFragment questionFragment;
 
     public AnswerState() {
-
+        super(3);
     }
 
 
@@ -65,15 +88,53 @@ public class AnswerState extends BaseState {
                 getGameContext().getActivity().getResources().getDimension(R.dimen.title_font_size));
         txtTitle.setText(R.string.answer_message);
 
+        imgShowVoting.setVisibility(View.VISIBLE);
         questionFragment.displayAnswer(getGameContext().getAnswer().getValue());
+        showIsCorrect();
     }
 
     @Override
     public void start() {
-        showVoting();
+        super.start();
     }
 
-    private void showVoting() {
+    @Override
+    protected void onTick(int time) {
+
+    }
+
+    @Override
+    protected void onFinish() {
+        hideIsCorrect();
+    }
+
+    @Override
+    protected void onCancel() {
+
+    }
+
+    protected void showIsCorrect() {
+        if (Objects.requireNonNull(getGameContext().getAnswer().getValue()).isCorrect()) {
+            imgCorrect.setImageResource(R.drawable.ic_correct_w48);
+            txtCorrect.setText(R.string.correct_label);
+        } else {
+            imgCorrect.setImageResource(R.drawable.ic_wrong_w48);
+            txtCorrect.setText(R.string.wrong_label);
+        }
+        cardCorrect.setVisibility(View.VISIBLE);
+    }
+
+    private void hideIsCorrect() {
+        cardCorrect.setVisibility(View.INVISIBLE);
+    }
+
+    @OnClick(R.id.imgShowVoting)
+    void showVoting() {
+        if (layoutVote.getVisibility() == View.VISIBLE) {
+            layoutVote.setVisibility(View.INVISIBLE);
+        } else {
+            layoutVote.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -86,10 +147,32 @@ public class AnswerState extends BaseState {
 
     }
 
+    @OnClick(R.id.btnLike)
+    void likeIt() {
+        ApplicationResources.getInstance()
+                .getQuestionProvider()
+                .like(getGameContext().getQuestion().getValue());
+        showVoting();
+        imgShowVoting.setVisibility(View.INVISIBLE);
+    }
+
+    @OnClick(R.id.btnDislike)
+    void dislikeIt() {
+        ApplicationResources.getInstance()
+                .getQuestionProvider()
+                .dislike(getGameContext().getQuestion().getValue());
+        showVoting();
+        imgShowVoting.setVisibility(View.INVISIBLE);
+    }
+
+
     @Override
     @OnClick(R.id.btnStart)
     public void finish() {
+        CancelTimer();
         ActivityHelper.hideKeyboard(getGameContext().getActivity());
+        hideIsCorrect();
+        imgShowVoting.setVisibility(View.INVISIBLE);
         super.finish();
     }
 }
