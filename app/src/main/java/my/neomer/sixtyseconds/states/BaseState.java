@@ -11,6 +11,7 @@ public abstract class BaseState implements IState {
     BaseState(Parcel in) {
         gameContext = (BaseGameContext) in.readSerializable();
         stateFinishListener = (IStateFinishListener) in.readSerializable();
+        paused = in.readInt()  == 1;
     }
 
     @Override
@@ -22,6 +23,7 @@ public abstract class BaseState implements IState {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(getGameContext(), 0);
         dest.writeSerializable(stateFinishListener);
+        dest.writeInt(paused ? 1 : 0);
     }
 
     //endregion
@@ -50,4 +52,20 @@ public abstract class BaseState implements IState {
         }
     }
 
+    private boolean paused = false;
+
+    @Override
+    public void pause() {
+        paused = true;
+    }
+
+    @Override
+    public void proceed() {
+        paused = false;
+    }
+
+    @Override
+    public boolean isOnPause() {
+        return paused;
+    }
 }

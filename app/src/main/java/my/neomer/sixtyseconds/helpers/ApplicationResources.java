@@ -32,10 +32,10 @@ public class ApplicationResources {
         return ourInstance;
     }
 
+    //endregion
+
     private ApplicationResources() {
     }
-
-    //endregion
 
     private IApiProvider questionProvider = new HttpApiProvider();
     private IAdsProvider adsProvider = new AdMobAdProvider();

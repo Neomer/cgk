@@ -49,26 +49,12 @@ public abstract class BaseEscalationState extends BaseState {
         escalationTimer.execute();
     }
 
-    final void PauseTimer() { escalationTimer.pause(); }
-
-    final void ProceedTimer() { escalationTimer.proceed(); }
-
     final void CancelTimer()
     {
         Log.d(LOG_TAG, "BaseEscalationState.CancelTimer()");
         if (!escalationTimer.isCancelled()) {
             escalationTimer.cancel(true);
         }
-    }
-
-    @Override
-    public void pause() {
-        PauseTimer();
-    }
-
-    @Override
-    public void proceed() {
-        ProceedTimer();
     }
 
     @Override

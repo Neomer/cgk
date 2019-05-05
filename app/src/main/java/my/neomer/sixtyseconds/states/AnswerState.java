@@ -137,16 +137,6 @@ public class AnswerState extends BaseEscalationState {
         }
     }
 
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void proceed() {
-
-    }
-
     @OnClick(R.id.btnLike)
     void likeIt() {
         ApplicationResources.getInstance()

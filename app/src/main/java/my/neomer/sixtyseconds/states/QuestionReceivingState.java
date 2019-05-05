@@ -87,16 +87,6 @@ public class QuestionReceivingState extends BaseState
     }
 
     @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void proceed() {
-
-    }
-
-    @Override
     public void finish() {
         super.finish();
     }

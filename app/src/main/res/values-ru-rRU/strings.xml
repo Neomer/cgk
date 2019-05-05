@@ -8,7 +8,8 @@
     <string name="finish_message">Время вышло</string>
     <string name="cancel_message">Остановлено</string>
     <string name="answer_message">Ответ</string>
-    <string name="updating_message">Ищем вопрос...</string>
+    <string name="updating_message">Ищем вопрос…</string>
+    <string name="receiving_answer_message">Проверяем ответ…</string>
     <string name="next_question_message">Следующий вопрос</string>
     <string name="vote_lebel">Вам понравился вопрос?</string>
     <string name="type_guess_title">Напишите ваш ответ:</string>

@@ -51,6 +51,12 @@ public class MainActivity
         super.onStop();
     }
 
+    @Override
+    protected void onDestroy() {
+        gameMode.finish();
+        super.onDestroy();
+    }
+
     /**
      * Сохраняет количество пропущенных вопросов для показа рекламы
      */
