@@ -7,6 +7,7 @@ public class Answer {
     private String answer;
     private String comment;
     private boolean correct;
+    private int points;
 
     @NonNull
     public String getAnswer() {
@@ -32,5 +33,13 @@ public class Answer {
 
     public void setCorrect(boolean correct) {
         this.correct = correct;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

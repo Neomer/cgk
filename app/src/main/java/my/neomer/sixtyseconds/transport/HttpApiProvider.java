@@ -6,10 +6,7 @@ import android.util.Log;
 import my.neomer.sixtyseconds.MyApp;
 import my.neomer.sixtyseconds.dao.AnswerDTO;
 import my.neomer.sixtyseconds.dao.QuestionDTO;
-<<<<<<< HEAD:app/src/main/java/my/neomer/sixtyseconds/transport/HttpQuestionProvider.java
-=======
 import my.neomer.sixtyseconds.dao.UserRatingDTO;
->>>>>>> 0560879abfb9306f43e45ead957de653ebe35d4f:app/src/main/java/my/neomer/sixtyseconds/transport/HttpApiProvider.java
 import my.neomer.sixtyseconds.helpers.DifficultyHelper;
 import my.neomer.sixtyseconds.model.Answer;
 import my.neomer.sixtyseconds.model.Question;
