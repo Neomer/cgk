@@ -81,12 +81,16 @@ public class QuestionFragment extends Fragment {
         if (progressBar != null) {
             progressBar.setVisibility(View.INVISIBLE);
         }
-        String txt = getString(R.string.question_label,
-                question.getId(),
-                translatedDifficulty(question.getDifficulty()),
-                question.getVote(),
-                question.getText());
-        txtQuestion.setText(Html.fromHtml(txt));
+        if (question == null) {
+            txtQuestion.setText(R.string.answer_not_received_error);
+        } else {
+            String txt = getString(R.string.question_label,
+                    question.getId(),
+                    translatedDifficulty(question.getDifficulty()),
+                    question.getVote(),
+                    question.getText());
+            txtQuestion.setText(Html.fromHtml(txt));
+        }
     }
 
     public void displayAnswer(Answer answer) {
@@ -94,15 +98,19 @@ public class QuestionFragment extends Fragment {
         if (progressBar != null) {
             progressBar.setVisibility(View.INVISIBLE);
         }
-        if (answer.getComment() != null && !answer.getComment().isEmpty()) {
-            txtQuestion.setText(Html.fromHtml(
-                    getResources().getString(R.string.answer_and_comment_label,
-                            answer.getAnswer(),
-                            answer.getComment())));
+        if (answer == null) {
+            txtQuestion.setText(R.string.answer_not_received_error);
         } else {
-            txtQuestion.setText(Html.fromHtml(
-                    getResources().getString(R.string.answer_label,
-                            answer.getAnswer())));
+            if (answer.getComment() != null && !answer.getComment().isEmpty()) {
+                txtQuestion.setText(Html.fromHtml(
+                        getResources().getString(R.string.answer_and_comment_label,
+                                answer.getAnswer(),
+                                answer.getComment())));
+            } else {
+                txtQuestion.setText(Html.fromHtml(
+                        getResources().getString(R.string.answer_label,
+                                answer.getAnswer())));
+            }
         }
     }
 
