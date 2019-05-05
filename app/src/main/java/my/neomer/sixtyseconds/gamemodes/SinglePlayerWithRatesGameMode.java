@@ -6,11 +6,11 @@ import android.os.Parcelable;
 import my.neomer.sixtyseconds.core.InfinitePipeline;
 import my.neomer.sixtyseconds.states.AdsDisplayingState;
 import my.neomer.sixtyseconds.states.AnswerReceivingState;
-import my.neomer.sixtyseconds.states.AnswerState;
 import my.neomer.sixtyseconds.states.GuessInputState;
 import my.neomer.sixtyseconds.states.IState;
 import my.neomer.sixtyseconds.states.QuestionReceivingState;
 import my.neomer.sixtyseconds.states.QuestionState;
+import my.neomer.sixtyseconds.states.RatingAnswerState;
 
 public class SinglePlayerWithRatesGameMode extends BaseGameMode {
 
@@ -47,7 +47,7 @@ public class SinglePlayerWithRatesGameMode extends BaseGameMode {
                         new QuestionState(),
                         new GuessInputState(),
                         new AnswerReceivingState(),
-                        new AnswerState(),
+                        new RatingAnswerState(),
                         new AdsDisplayingState()
 
         ));

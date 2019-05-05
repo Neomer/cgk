@@ -62,7 +62,7 @@ public class QuestionSettingsState extends BaseState {
     @OnClick(R.id.btnStart)
     void saveGameSettings() {
         getGameContext().setDifficulty(
-                Question.Difficulty.values()[Question.Difficulty.values().length - (int)spinnerDifficulty.getSelectedItemId()]);
+                Question.Difficulty.values()[(int)spinnerDifficulty.getSelectedItemId()]);
         finish();
     }
 
@@ -79,5 +79,11 @@ public class QuestionSettingsState extends BaseState {
     @Override
     public void proceed() {
 
+    }
+
+    @Override
+    public void finish() {
+        settingsLayout.setVisibility(View.INVISIBLE);
+        super.finish();
     }
 }

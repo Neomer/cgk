@@ -38,8 +38,8 @@ public class AdsDisplayingState extends BaseState implements IRewardedAdResultLi
 
     @Override
     public void start() {
-        if (getGameContext().getAdsSkipped() < ADS_SKIP_COUNT || !ApplicationResources.getInstance().getAdsProvider().showInterstitialAd(this)) {
-            getGameContext().adsSkipped();
+        if (ApplicationResources.getInstance().getSkippedAds() < ADS_SKIP_COUNT || !ApplicationResources.getInstance().getAdsProvider().showInterstitialAd(this)) {
+            ApplicationResources.getInstance().AdSkipped();
             finish();
         }
     }
@@ -58,19 +58,19 @@ public class AdsDisplayingState extends BaseState implements IRewardedAdResultLi
 
     @Override
     public void onAdClick() {
-        getGameContext().setAdsSkipped(0);
+        ApplicationResources.getInstance().AdDisplayed();
         finish();
     }
 
     @Override
     public void onAdComplete() {
-        getGameContext().setAdsSkipped(0);
+        ApplicationResources.getInstance().AdDisplayed();
         finish();
     }
 
     @Override
     public void onAdLoadFailed() {
-        getGameContext().adsSkipped();
+        ApplicationResources.getInstance().AdSkipped();
         finish();
     }
 

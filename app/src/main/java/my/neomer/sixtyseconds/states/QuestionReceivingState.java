@@ -69,7 +69,6 @@ public class QuestionReceivingState extends BaseState
 
         ButterKnife.bind(this, getGameContext().getActivity());
 
-        settingsLayout.setVisibility(View.INVISIBLE);
         btnStart.setOnClickListener(null);
         ActivityHelper.hideKeyboard(getGameContext().getActivity());
     }

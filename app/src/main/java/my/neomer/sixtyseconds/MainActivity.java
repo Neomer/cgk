@@ -35,32 +35,13 @@ public class MainActivity
         extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private static final int SKIP_ADS_COUNT = 5;        // Сколько вопросов показывать без рекламы
-
-    // Configuration keys
-    private static final String USER_UUID_KEY = "USER_UUID";
-    private static final String DIFFICULTY_KEY = "DIFFICULTY";
-    private static final String ADS_COUNTER_KEY = "ADS";
-
-    private ConstraintLayout voteLayout, mainLayout;
-    private CardView cardGuess, cardCorrect;
-    private ImageView imgCorrect;
-    private TextView txtCorrect;
-
-    private InterstitialAd mInterstitialAd;
-    private int ad_skip = 0;
-
     private IGameMode gameMode;
-
-    private enum GameState {
-        DisplayAds
-    }
-    private GameState state;
 
     @Override
     protected void onPause() {
         YandexMetrica.getReporter(getApplicationContext(), AppMetricaHelper.AppKey).pauseSession();
         saveAdsState();
+        gameMode.getCurrentState().pause();
         super.onPause();
     }
 
@@ -74,16 +55,14 @@ public class MainActivity
      * Сохраняет количество пропущенных вопросов для показа рекламы
      */
     private void saveAdsState() {
-        SharedPreferences pref = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor ed = pref.edit();
-        ed.putInt(ADS_COUNTER_KEY, ad_skip);
-        ed.apply();
+        ApplicationResources.getInstance().savePreferences(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         YandexMetrica.getReporter(getApplicationContext(), AppMetricaHelper.AppKey).resumeSession();
+        gameMode.getCurrentState().proceed();
     }
 
     @Override
@@ -98,16 +77,8 @@ public class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainLayout = findViewById(R.id.mainLayout);
-        voteLayout = findViewById(R.id.layoutVote);
-
-        cardCorrect = findViewById(R.id.cardCorrect);
-        imgCorrect = findViewById(R.id.imgCorrect);
-        txtCorrect = findViewById(R.id.txtCorrect);
-
         loadGameMode();
         loadAds();
-        loadPreferences();
     }
 
     @Override
@@ -125,47 +96,11 @@ public class MainActivity
         gameMode.getGameContext().setActivity(this);
     }
 
-    private void showCardCorrect(boolean correct) {
-        if (correct) {
-            imgCorrect.setImageResource(R.drawable.ic_correct_w48);
-            txtCorrect.setText(R.string.correct_label);
-        } else {
-            imgCorrect.setImageResource(R.drawable.ic_wrong_w48);
-            txtCorrect.setText(R.string.wrong_label);
-        }
-        cardCorrect.setVisibility(View.VISIBLE);
-    }
-
-    private void hideCardCorrect() {
-        cardCorrect.setVisibility(View.INVISIBLE);
-    }
-
     /**
      * Подготовить систему отображения рекламы
      */
     private void loadAds() {
         ApplicationResources.getInstance().loadAds(this);
-    }
-
-    /**
-     * Загрузить настройки
-     */
-    private void loadPreferences() {
-        SharedPreferences pref = getPreferences(MODE_PRIVATE);
-
-        String user = pref.getString(USER_UUID_KEY, null);
-        int difficulty = pref.getInt(DIFFICULTY_KEY, 5);
-        gameMode.getGameContext().setAdsSkipped(pref.getInt(ADS_COUNTER_KEY, 0));
-
-        if (user == null) {
-            user = UUID.randomUUID().toString();
-            SharedPreferences.Editor ed = pref.edit();
-            ed.putString(USER_UUID_KEY, user);
-            ed.apply();
-        }
-        ApplicationResources.getInstance()
-                .getQuestionProvider()
-                .setConfiguration(new TransportConfiguration(user, difficulty));
     }
 
      @Override
@@ -181,29 +116,5 @@ public class MainActivity
                 return super.onOptionsItemSelected(item);
 
         }
-    }
-
-    /**
-     * Спрятать окно для оценки вопроса
-     */
-    private void hideVoting() {
-        voteLayout.setVisibility(View.INVISIBLE);
-
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(mainLayout);
-        constraintSet.connect(R.id.fragment, ConstraintSet.BOTTOM, R.id.btnStart, ConstraintSet.TOP,0);
-        constraintSet.applyTo(mainLayout);
-    }
-
-    /**
-     * Отобразить окно для оценки вопроса
-     */
-    private void showVoting() {
-        voteLayout.setVisibility(View.VISIBLE);
-
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(mainLayout);
-        constraintSet.connect(R.id.fragment, ConstraintSet.BOTTOM, R.id.layoutVote, ConstraintSet.TOP,0);
-        constraintSet.applyTo(mainLayout);
     }
 }

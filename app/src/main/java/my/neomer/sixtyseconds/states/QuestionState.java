@@ -50,7 +50,7 @@ public class QuestionState extends BaseEscalationState {
     private QuestionFragment questionFragment;
 
     public QuestionState() {
-        super(10);
+        super(60);
     }
 
     @Override

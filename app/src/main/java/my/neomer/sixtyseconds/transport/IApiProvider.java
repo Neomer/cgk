@@ -2,8 +2,9 @@ package my.neomer.sixtyseconds.transport;
 
 import my.neomer.sixtyseconds.model.Answer;
 import my.neomer.sixtyseconds.model.Question;
+import my.neomer.sixtyseconds.model.UserRating;
 
-public interface IQuestionProvider {
+public interface IApiProvider {
 
     void setConfiguration(TransportConfiguration config);
 
@@ -14,4 +15,6 @@ public interface IQuestionProvider {
     void like(Question question);
 
     void dislike(Question question);
+
+    void loadUserRating(Callback<UserRating> callback);
 }

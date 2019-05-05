@@ -2,7 +2,9 @@ package my.neomer.sixtyseconds.transport;
 
 import my.neomer.sixtyseconds.dao.AnswerDTO;
 import my.neomer.sixtyseconds.dao.QuestionDTO;
+import my.neomer.sixtyseconds.dao.UserRatingDTO;
 import my.neomer.sixtyseconds.model.Question;
+import my.neomer.sixtyseconds.model.UserRating;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -20,4 +22,7 @@ public interface AskMeAPI {
 
     @GET("adclick.php")
     Call<Void> adclick(@Query("user") String userId);
+
+    @GET("user_rating.php")
+    Call<UserRatingDTO> getUserRating(@Query("user") String userId);
 }
