@@ -13,6 +13,7 @@
     <string name="vote_lebel">Do you like this question?</string>
     <string name="type_guess_title">Type your variant:</string>
     <string name="send_guess_label">Send</string>
+    <string name="answer_not_received_error">Sorry, but something going wrong…</string>
     <string name="question_label"><![CDATA[#%1$d Level: <b>%2$s</b> Rate: %3$d<br /><br />%4$s]]></string>
     <string name="answer_label"><![CDATA[<string><u>Answer: </u></string>%1$s]]></string>
     <string name="answer_and_comment_label"><![CDATA[<strong><u>Answer: </u></strong>%1$s<br /><strong><u>Comment: </u></strong>%2$s]]></string>
