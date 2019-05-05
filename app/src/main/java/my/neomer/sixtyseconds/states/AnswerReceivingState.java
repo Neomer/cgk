@@ -76,7 +76,7 @@ public class AnswerReceivingState extends BaseState
         btnStart.setText(R.string.wait_countdown_text);
         txtTimeCountdown.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getGameContext().getActivity().getResources().getDimension(R.dimen.title_font_size));
-        txtTimeCountdown.setText(R.string.updating_message);
+        txtTimeCountdown.setText(R.string.receiving_answer_message);
         questionFragment.clear();
 
         ApplicationResources.getInstance()
@@ -84,16 +84,6 @@ public class AnswerReceivingState extends BaseState
                 .getAnswer(getGameContext().getQuestion().getValue(),
                         getGameContext().getGuess(),
                         this);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void proceed() {
-
     }
 
     @Override

@@ -11,7 +11,6 @@ class EscalationTimer extends AsyncTask<Void, Integer, Void>
 
     private int escalationTime;
     private BaseEscalationState state;
-    private volatile boolean pause = false;
     private volatile boolean eventsDisabled = false;
 
     EscalationTimer(BaseEscalationState state, int escalationTime) {
@@ -56,14 +55,6 @@ class EscalationTimer extends AsyncTask<Void, Integer, Void>
         eventsDisabled = false;
     }
 
-    void proceed() {
-        pause = false;
-    }
-
-    void pause() {
-        pause = true;
-    }
-
     @Override
     protected Void doInBackground(Void... voids) {
         for (int time = this.escalationTime; time > 0; --time) {
@@ -71,7 +62,7 @@ class EscalationTimer extends AsyncTask<Void, Integer, Void>
                 publishProgress(time);
                 do {
                     TimeUnit.SECONDS.sleep(1);
-                } while (pause);
+                } while (state.isOnPause());
             } catch (InterruptedException e) {
                 return null;
             }

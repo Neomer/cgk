@@ -37,4 +37,8 @@ public interface IState extends Parcelable {
      */
     void finish();
 
+    /**
+     * Состояние приостановлено
+     */
+    boolean isOnPause();
 }

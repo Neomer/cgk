@@ -72,16 +72,6 @@ public class QuestionSettingsState extends BaseState {
     }
 
     @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void proceed() {
-
-    }
-
-    @Override
     public void finish() {
         settingsLayout.setVisibility(View.INVISIBLE);
         super.finish();

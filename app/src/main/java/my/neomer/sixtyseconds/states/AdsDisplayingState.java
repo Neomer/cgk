@@ -44,16 +44,6 @@ public class AdsDisplayingState extends BaseState implements IRewardedAdResultLi
         }
     }
 
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void proceed() {
-
-    }
-
     //region IRewardedAdResultListener implementation
 
     @Override

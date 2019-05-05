@@ -13,6 +13,7 @@ public abstract class BaseGameMode implements IGameMode, IStateFinishListener {
     private static final String LOG_TAG = "BaseGameMode";
     private BaseGameContext gameContext;
     private Pipeline<IState> statePipeline;
+    private boolean finish = false;
 
     /**
      * Новая игра.
@@ -46,15 +47,31 @@ public abstract class BaseGameMode implements IGameMode, IStateFinishListener {
     public void run() {
         IState initialState = getCurrentState();
         if (initialState != null) {
-            runState(initialState);
+            if (initialState.isOnPause()) {
+                initialState.proceed();
+            } else {
+                runState(initialState);
+            }
+        }
+    }
+
+    @Override
+    public void finish() {
+        IState state = getCurrentState();
+        finish = true;
+        if (state != null) {
+            state.finish();
         }
     }
 
     private void runState(@NonNull final IState state) {
-        final IStateFinishListener stateFinishListener = this;
-        state.prepareState(getGameContext(), stateFinishListener);
-        state.start();
+        if (!finish) {
+            final IStateFinishListener stateFinishListener = this;
+            state.prepareState(getGameContext(), stateFinishListener);
+            state.start();
+        }
     }
+
 
     //region Parcelable
 

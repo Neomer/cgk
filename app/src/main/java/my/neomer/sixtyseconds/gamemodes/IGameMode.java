@@ -25,4 +25,9 @@ public interface IGameMode extends Parcelable {
      * Начать игру
      */
     void run();
+
+    /**
+     * Закончить игру
+     */
+    void finish();
 }
