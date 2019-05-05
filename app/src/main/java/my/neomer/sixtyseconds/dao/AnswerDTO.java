@@ -7,6 +7,7 @@ public class AnswerDTO {
     private int result;
     private String answer;
     private String comment;
+    private int points;
 
     public int isCorrect() {
         return result;
@@ -37,6 +38,7 @@ public class AnswerDTO {
         answer.setAnswer(this.answer);
         answer.setComment(this.comment);
         answer.setCorrect(result == 1);
+        answer.setPoints(points);
         return answer;
     }
 }
