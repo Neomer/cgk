@@ -16,6 +16,7 @@
     <string name="send_guess_label">Отправить</string>
     <string name="question_label"><![CDATA[#%1$d <strong>Уровень:</strong> %2$s <strong>Рейтинг:</strong> %3$d<br /><br />%4$s]]></string>
     <string name="answer_label"><![CDATA[<string><u>Ответ: </u></string>%1$s]]></string>
+    <string name="answer_not_received_error">Извините, но что-то пошло не так…</string>
     <string name="answer_and_comment_label"><![CDATA[<strong><u>Ответ: </u></strong>%1$s<br /><strong><u>Комментарий: </u></strong>%2$s]]></string>
     <string name="correct_label">Верно!</string>
     <string name="additional_rate_points">+%1$d Очков Рейтинга</string>
