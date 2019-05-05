@@ -162,6 +162,7 @@ public class AnswerState extends BaseEscalationState {
         CancelTimer();
         ActivityHelper.hideKeyboard(getGameContext().getActivity());
         hideIsCorrect();
+        layoutVote.setVisibility(View.INVISIBLE);
         imgShowVoting.setVisibility(View.INVISIBLE);
         super.finish();
     }
