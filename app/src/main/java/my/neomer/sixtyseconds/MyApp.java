@@ -5,6 +5,8 @@ import android.app.Application;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
 
+import my.neomer.sixtyseconds.helpers.AppMetricaHelper;
+
 public class MyApp extends Application {
 
     public static final String Version = BuildConfig.VERSION_NAME;

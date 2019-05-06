@@ -6,20 +6,23 @@ import android.util.Log;
 import my.neomer.sixtyseconds.MyApp;
 import my.neomer.sixtyseconds.dao.AnswerDTO;
 import my.neomer.sixtyseconds.dao.QuestionDTO;
+import my.neomer.sixtyseconds.dao.UserRatingDTO;
+import my.neomer.sixtyseconds.helpers.DifficultyHelper;
 import my.neomer.sixtyseconds.model.Answer;
 import my.neomer.sixtyseconds.model.Question;
+import my.neomer.sixtyseconds.model.UserRating;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class HttpQuestionProvider
-        implements IQuestionProvider, retrofit2.Callback<QuestionDTO>  {
+public class HttpApiProvider
+        implements IApiProvider, retrofit2.Callback<QuestionDTO>  {
 
-    private static final String TAG = "HttpQuestionProvider";
+    private static final String TAG = "HttpApiProvider";
     private Callback<Question> callbackQuestion;
     private Callback<Answer> callbackAnswer;
     private TransportConfiguration configuration;
 
-    public HttpQuestionProvider() {
+    public HttpApiProvider() {
 
     }
 
@@ -29,11 +32,12 @@ public class HttpQuestionProvider
     }
 
     @Override
-    public void getNextQuestion(Callback<Question> callback) {
+    public void getNextQuestion(Question.Difficulty difficulty, Callback<Question> callback) {
         this.callbackQuestion = callback;
+
         RetrofitService.getInstance()
                 .getApi()
-                .getQuestion(configuration.getUser(), MyApp.Version)
+                .getQuestion(configuration.getUser(), MyApp.Version, DifficultyHelper.ToInt(difficulty))
                 .enqueue(this);
     }
 
@@ -91,6 +95,25 @@ public class HttpQuestionProvider
                         Log.d(TAG, "Execution failed");
                     }
                 });
+    }
+
+    @Override
+    public void loadUserRating(final Callback<UserRating> callback) {
+        RetrofitService.getInstance()
+                .getApi()
+                .getUserRating(configuration.getUser())
+                .enqueue(new retrofit2.Callback<UserRatingDTO>() {
+                    @Override
+                    public void onResponse(@NonNull Call<UserRatingDTO> call, @NonNull Response<UserRatingDTO> response) {
+                        callback.onReady(response.body() != null ? response.body().toUserRating() : null);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<UserRatingDTO> call, @NonNull Throwable t) {
+                        callback.onFailure(t);
+                    }
+                });
+
     }
 
     @Override

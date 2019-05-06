@@ -7,17 +7,23 @@
     <string name="press_start_message">Нажмите старт</string>
     <string name="finish_message">Время вышло</string>
     <string name="cancel_message">Остановлено</string>
-    <string name="updating_message">Ищем вопрос...</string>
+    <string name="answer_message">Ответ</string>
+    <string name="updating_message">Ищем вопрос…</string>
+    <string name="receiving_answer_message">Проверяем ответ…</string>
     <string name="next_question_message">Следующий вопрос</string>
     <string name="vote_lebel">Вам понравился вопрос?</string>
     <string name="type_guess_title">Напишите ваш ответ:</string>
     <string name="send_guess_label">Отправить</string>
     <string name="question_label"><![CDATA[#%1$d <strong>Уровень:</strong> %2$s <strong>Рейтинг:</strong> %3$d<br /><br />%4$s]]></string>
     <string name="answer_label"><![CDATA[<string><u>Ответ: </u></string>%1$s]]></string>
+    <string name="answer_not_received_error">Извините, но что-то пошло не так…</string>
     <string name="answer_and_comment_label"><![CDATA[<strong><u>Ответ: </u></strong>%1$s<br /><strong><u>Комментарий: </u></strong>%2$s]]></string>
     <string name="correct_label">Верно!</string>
+    <string name="additional_rate_points">+%1$d Очков Рейтинга</string>
     <string name="wrong_label">Ошибка!</string>
     <string name="privacy_policy_action_label">Политика конфиденциальности</string>
+    <string name="max_question_difficulty">Максимальная сложность вопросов:</string>
+    <string name="setup_game">Выберите настройки игры:</string>
     <!-- difficulties -->
     <string name="difficult_easiest">Легкий</string>
     <string name="difficult_normal">Нормальный</string>
@@ -25,4 +31,20 @@
     <string name="difficult_Professional">Выше среднего</string>
     <string name="difficult_Hardest">Сложный</string>
     <string name="difficult_Unknown">Не установлен</string>
+    <!-- game modes -->
+    <string name="single_player_gamemode_title">Простая игра</string>
+    <string name="single_player_with_rate_gamemode_title">Рейтинговая игра</string>
+
+
+    <!-- Rating activity -->
+    <string name="rating_title">Рейтинг</string>
+    <string name="points_title">Очки:</string>
+    <string name="place_title">Место:</string>
+    <string name="leaderboard_title">Лидеры</string>
+    <string name="first_place_title">1ое место</string>
+    <string name="second_place_title">2ое место</string>
+    <string name="third_place_title">3е место</string>
+    <string name="fourth_place_title">4ое место</string>
+    <string name="fifth_place_title">5ое место</string>
+
 </resources>

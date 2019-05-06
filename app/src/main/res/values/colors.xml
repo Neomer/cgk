@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#00675b</color>
     <color name="colorAccent">#009688</color>
     <color name="main_font">#333</color>
-    <color name="background">#eaeaea</color>
-    <color name="start_button_text">#ffffff</color>
+    <color name="background">#EAEAEA</color>
+    <color name="start_button_text">#FFFFFF</color>
     <color name="fragment_background">#ffffff</color>
 
     <color name="correct_font">#669933</color>

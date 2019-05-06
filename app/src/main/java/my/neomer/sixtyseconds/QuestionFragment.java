@@ -22,12 +22,13 @@ import android.widget.TextView;
 import java.security.PrivateKey;
 import java.util.Observable;
 
+import my.neomer.sixtyseconds.gamemodes.BaseGameContext;
 import my.neomer.sixtyseconds.model.Answer;
 import my.neomer.sixtyseconds.model.Question;
 
 public class QuestionFragment extends Fragment {
 
-    private QuestionFragmentViewModel mViewModel;
+    private BaseGameContext mViewModel;
     private TextView txtQuestion;
     private ProgressBar progressBar;
 
@@ -50,20 +51,7 @@ public class QuestionFragment extends Fragment {
 
         progressBar = getView().findViewById(R.id.updateProgressBar);
 
-        mViewModel = ViewModelProviders.of(getActivity()).get(QuestionFragmentViewModel.class);
-        mViewModel.getQuestion().observe(this, new Observer<Question>() {
-            @Override
-            public void onChanged(@Nullable Question question) {
-                update(question);
-            }
-        });
-        mViewModel.getAnswer().observe(this, new Observer<Answer>() {
-            @Override
-            public void onChanged(@Nullable Answer answer) {
-                updateAnswer(answer);
-            }
-        });
-
+        mViewModel = ViewModelProviders.of(getActivity()).get(BaseGameContext.class);
     }
 
     private String translatedDifficulty(Question.Difficulty difficulty) {
@@ -88,30 +76,41 @@ public class QuestionFragment extends Fragment {
         return Html.fromHtml(s);
     }
 
-    public void update(Question question) {
+    public void displayQuestion(Question question) {
         txtQuestion.scrollTo(0, 0);
         if (progressBar != null) {
             progressBar.setVisibility(View.INVISIBLE);
         }
-        String txt = getString(R.string.question_label,
-                question.getId(),
-                translatedDifficulty(question.getDifficulty()),
-                question.getVote(),
-                question.getText());
-        txtQuestion.setText(Html.fromHtml(txt));
+        if (question == null) {
+            txtQuestion.setText(R.string.answer_not_received_error);
+        } else {
+            String txt = getString(R.string.question_label,
+                    question.getId(),
+                    translatedDifficulty(question.getDifficulty()),
+                    question.getVote(),
+                    question.getText());
+            txtQuestion.setText(Html.fromHtml(txt));
+        }
     }
 
-    private void updateAnswer(Answer answer) {
+    public void displayAnswer(Answer answer) {
         txtQuestion.scrollTo(0, 0);
-        if (answer.getComment() != null && !answer.getComment().isEmpty()) {
-            txtQuestion.setText(Html.fromHtml(
-                    getResources().getString(R.string.answer_and_comment_label,
-                            answer.getAnswer(),
-                            answer.getComment())));
+        if (progressBar != null) {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+        if (answer == null) {
+            txtQuestion.setText(R.string.answer_not_received_error);
         } else {
-            txtQuestion.setText(Html.fromHtml(
-                    getResources().getString(R.string.answer_label,
-                            answer.getAnswer())));
+            if (answer.getComment() != null && !answer.getComment().isEmpty()) {
+                txtQuestion.setText(Html.fromHtml(
+                        getResources().getString(R.string.answer_and_comment_label,
+                                answer.getAnswer(),
+                                answer.getComment())));
+            } else {
+                txtQuestion.setText(Html.fromHtml(
+                        getResources().getString(R.string.answer_label,
+                                answer.getAnswer())));
+            }
         }
     }
 
@@ -122,10 +121,6 @@ public class QuestionFragment extends Fragment {
         if (txtQuestion != null) {
             txtQuestion.setText("");
         }
-    }
-
-    public void displayAnswer(String guess) {
-        mViewModel.checkAnswer(guess);
     }
 }
 
