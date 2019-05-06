@@ -80,7 +80,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/txtPlace"
                 app:layout_constraintStart_toEndOf="@+id/txtPlace"
                 app:layout_constraintTop_toTopOf="@+id/txtPlace"
-                app:srcCompat="@color/colorAccent"
+                app:srcCompat="@android:color/transparent"
                 tools:visibility="invisible" />
 
             <TextView
