@@ -114,12 +114,14 @@ public class AnswerState extends BaseEscalationState {
     }
 
     protected void showIsCorrect() {
-        if (Objects.requireNonNull(getGameContext().getAnswer().getValue()).isCorrect()) {
-            imgCorrect.setImageResource(R.drawable.ic_correct_w48);
-            txtCorrect.setText(R.string.correct_label);
-        } else {
-            imgCorrect.setImageResource(R.drawable.ic_wrong_w48);
-            txtCorrect.setText(R.string.wrong_label);
+        if (getGameContext().getAnswer().getValue() != null) {
+            if (getGameContext().getAnswer().getValue().isCorrect()) {
+                imgCorrect.setImageResource(R.drawable.ic_correct_w48);
+                txtCorrect.setText(R.string.correct_label);
+            } else {
+                imgCorrect.setImageResource(R.drawable.ic_wrong_w48);
+                txtCorrect.setText(R.string.wrong_label);
+            }
         }
         cardCorrect.setVisibility(View.VISIBLE);
     }
