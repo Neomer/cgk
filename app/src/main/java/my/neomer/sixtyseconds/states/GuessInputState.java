@@ -101,8 +101,10 @@ public class GuessInputState extends BaseEscalationState {
 
     @Override
     public void finish() {
-        ActivityHelper.hideKeyboard(getGameContext().getActivity());
-        cardGuess.setVisibility(View.INVISIBLE);
-        super.finish();
+        if (getGameContext() != null && getGameContext().getActivity() != null) {
+            ActivityHelper.hideKeyboard(getGameContext().getActivity());
+            cardGuess.setVisibility(View.INVISIBLE);
+            super.finish();
+        }
     }
 }
