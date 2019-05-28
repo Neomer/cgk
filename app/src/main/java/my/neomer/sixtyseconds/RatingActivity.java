@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import my.neomer.sixtyseconds.helpers.ApplicationResources;
@@ -71,14 +74,23 @@ public class RatingActivity extends AppCompatActivity
     public void onReady(UserRating data) {
         loadUserRatingProgressBar.setVisibility(View.INVISIBLE);
         imvPlaceIcon.setVisibility(View.INVISIBLE);
-        txtPlace.setText(String.valueOf(data.getPlace()));
-        txtPoints.setText(String.valueOf(data.getPoints()));
 
-        txtFirstPlace.setText(String.valueOf(data.getLeaderboard().get(0).getPoints()));
-        txtSecondPlace.setText(String.valueOf(data.getLeaderboard().get(1).getPoints()));
-        txtThirdPlace.setText(String.valueOf(data.getLeaderboard().get(2).getPoints()));
-        txtFourthPlace.setText(String.valueOf(data.getLeaderboard().get(3).getPoints()));
-        txtFifthPlace.setText(String.valueOf(data.getLeaderboard().get(4).getPoints()));
+        if (data != null) {
+            txtPlace.setText(String.valueOf(data.getPlace()));
+            txtPoints.setText(String.valueOf(data.getPoints()));
+
+            if (data.getLeaderboard() != null && data.getLeaderboard().size() > 0) {
+                List<TextView> placesViews = new ArrayList<>();
+                placesViews.add(txtFirstPlace);
+                placesViews.add(txtSecondPlace);
+                placesViews.add(txtThirdPlace);
+                placesViews.add(txtFourthPlace);
+                placesViews.add(txtFifthPlace);
+                for (int i = 0; i < data.getLeaderboard().size(); i++) {
+                    placesViews.get(i).setText(String.valueOf(data.getLeaderboard().get(i).getPoints()));
+                }
+            }
+        }
     }
 
     @Override
