@@ -7,7 +7,8 @@ import my.neomer.sixtyseconds.model.Question;
 
 public class SinglePlayerWithRatesContext extends BaseGameContext {
 
-    public SinglePlayerWithRatesContext() {
+    public SinglePlayerWithRatesContext(int gameModeId) {
+        super(gameModeId);
         setDifficulty(Question.Difficulty.Hardest);
     }
 

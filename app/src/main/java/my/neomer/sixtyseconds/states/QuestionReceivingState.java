@@ -83,7 +83,7 @@ public class QuestionReceivingState extends BaseState
 
         ApplicationResources.getInstance()
                 .getQuestionProvider()
-                .getNextQuestion(getGameContext().getDifficulty(), this);
+                .getNextQuestion(getGameContext().getDifficulty(), getGameContext().getGameModeId(), this);
     }
 
     @Override

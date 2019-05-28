@@ -32,12 +32,12 @@ public class HttpApiProvider
     }
 
     @Override
-    public void getNextQuestion(Question.Difficulty difficulty, Callback<Question> callback) {
+    public void getNextQuestion(Question.Difficulty difficulty, int gameModeId, Callback<Question> callback) {
         this.callbackQuestion = callback;
 
         RetrofitService.getInstance()
                 .getApi()
-                .getQuestion(configuration.getUser(), MyApp.Version, DifficultyHelper.ToInt(difficulty))
+                .getQuestion(configuration.getUser(), MyApp.Version, DifficultyHelper.ToInt(difficulty), gameModeId)
                 .enqueue(this);
     }
 

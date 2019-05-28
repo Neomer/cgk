@@ -46,8 +46,8 @@ public class BaseGameContext extends ViewModel implements Parcelable {
 
     //endregion
 
-    public BaseGameContext() {
-
+    public BaseGameContext(int gameModeId) {
+        this.gameMode = gameModeId;
     }
 
     private final MutableLiveData<Question> question = new MutableLiveData<>();
@@ -56,6 +56,7 @@ public class BaseGameContext extends ViewModel implements Parcelable {
     private FragmentActivity activity;
     private String guess;
     private Question.Difficulty difficulty;
+    private int gameMode;
 
     public MutableLiveData<Question> getQuestion() {
         return question;
@@ -81,4 +82,5 @@ public class BaseGameContext extends ViewModel implements Parcelable {
     public void setDifficulty(Question.Difficulty difficulty) {
         this.difficulty = difficulty;
     }
+    public int getGameModeId() { return gameMode; }
 }

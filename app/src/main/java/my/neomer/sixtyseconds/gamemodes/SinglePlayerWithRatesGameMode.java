@@ -41,7 +41,7 @@ public class SinglePlayerWithRatesGameMode extends BaseGameMode {
      * Новая игра.
      */
     public SinglePlayerWithRatesGameMode() {
-        super(new SinglePlayerWithRatesContext(),
+        super(new SinglePlayerWithRatesContext(0),
                 new InfinitePipeline<IState>(
                         new QuestionReceivingState(),
                         new QuestionState(),
@@ -54,5 +54,8 @@ public class SinglePlayerWithRatesGameMode extends BaseGameMode {
     }
 
 
-
+    @Override
+    public int gameModeId() {
+        return 0;
+    }
 }

@@ -30,4 +30,9 @@ public interface IGameMode extends Parcelable {
      * Закончить игру
      */
     void finish();
+
+    /**
+     * Идентификатор типа игры
+     */
+    int gameModeId();
 }

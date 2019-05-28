@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 public interface AskMeAPI {
 
     @GET("question2.php")
-    Call<QuestionDTO> getQuestion(@Query("user") String userId, @Query("version") String appVersion, @Query("level") int difficulty);
+    Call<QuestionDTO> getQuestion(@Query("user") String userId, @Query("version") String appVersion, @Query("level") int difficulty, @Query("gamemode") int gameModeId);
 
     @GET("answer.php")
     Call<AnswerDTO> getAnswer(@Query("user") String userId, @Query("question") long questionId, @Query("answer") String answer);

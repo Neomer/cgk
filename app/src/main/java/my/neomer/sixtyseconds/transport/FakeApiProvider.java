@@ -15,7 +15,7 @@ public class FakeApiProvider implements IApiProvider {
     }
 
     @Override
-    public void getNextQuestion(Question.Difficulty difficulty, Callback<Question> callback) {
+    public void getNextQuestion(Question.Difficulty difficulty, int gameModeId, Callback<Question> callback) {
         Question question = new Question();
         question.setId(0);
         question.setVote(0);

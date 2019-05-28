@@ -8,7 +8,7 @@ public interface IApiProvider {
 
     void setConfiguration(TransportConfiguration config);
 
-    void getNextQuestion(Question.Difficulty difficulty, Callback<Question> callback);
+    void getNextQuestion(Question.Difficulty difficulty, int gameModeId, Callback<Question> callback);
 
     void getAnswer(Question question, String guess, Callback<Answer> callback);
 

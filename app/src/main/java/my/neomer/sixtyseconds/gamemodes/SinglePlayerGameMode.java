@@ -38,7 +38,7 @@ public class SinglePlayerGameMode extends BaseGameMode {
     //endregion
 
     public SinglePlayerGameMode() {
-        super(new SinglePlayerContext(),
+        super(new SinglePlayerContext(1),
                 new InfinitePipeline<IState>(
                         1,
                         new QuestionSettingsState(),
@@ -51,4 +51,8 @@ public class SinglePlayerGameMode extends BaseGameMode {
                 ));
     }
 
+    @Override
+    public int gameModeId() {
+        return 1;
+    }
 }
